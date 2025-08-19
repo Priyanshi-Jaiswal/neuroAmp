@@ -1,0 +1,35 @@
+.loader {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    height: 50px;
+}
+
+.bar {
+    width: 100%;
+    height: 33%;
+    background-color: rgb(207, 207, 207);
+    animation-name: appear;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+.bar-two {
+    animation-delay: 0.2s;
+}
+
+.bar-three {
+    animation-delay: 0.4s;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

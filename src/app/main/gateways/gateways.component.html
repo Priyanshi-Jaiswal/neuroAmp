@@ -1,0 +1,33 @@
+<div style="width: 98%; margin: 0 1%;">
+    <div class="user">
+        <div class="userstory">
+            <h6>List Gateways</h6>
+        </div>
+
+        <div>
+            <div class="buttons">
+                <div class="icon-group left-group">
+                    <button mat-icon-button class="button" matTooltip="Add Gateway" (click)="navigateToAddGatewayPage()">
+                        <mat-icon>add_box</mat-icon>
+                    </button>
+                    <button mat-icon-button class="button" matTooltip="Edit" (click)="navigateToEditGatewayPage()">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button class="button" matTooltip="Delete" (click)="deleteGateway()">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <ag-grid-angular class="ag-theme-quartz table" 
+        [rowData]="rowData" 
+        [columnDefs]="colDefs" 
+        [pagination]="true"
+        [paginationPageSizeSelector]="paginationPageSizeSelector" 
+        (rowSelected)="onRowSelected($event)"
+        rowSelection="multiple">
+    </ag-grid-angular>
+</div>

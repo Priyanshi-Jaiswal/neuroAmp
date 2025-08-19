@@ -1,0 +1,12 @@
+[
+    {
+        "devices": [
+            "Virtual_RDK",
+            "RDK-B",
+            "RDK-V",
+            "RDK-C",
+            "WIFI-6",
+            "WIFI-7"
+        ]
+    }
+]

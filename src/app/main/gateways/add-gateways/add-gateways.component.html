@@ -1,0 +1,169 @@
+<div class="add-gateway-container">
+  <div class="add-gateway-header">
+    <h5>Add New Gateway</h5>
+  </div>
+
+  <div class="gateway-type-selection">
+    <button class="gateway-type-button" [class.active]="selectedGatewayType === 'virtual'" (click)="selectGatewayType('virtual')">Virtual gateway</button>
+    <button class="gateway-type-button" [class.active]="selectedGatewayType === 'real'" (click)="selectGatewayType('real')">Real gateway</button>
+  </div>
+
+  <div class="gateway-content">
+    
+    <form *ngIf="selectedGatewayType === 'virtual'">
+
+      <div class="form-group form-check-custom">
+        <input type="checkbox" class="form-check-input" id="virtualActive" name="virtualActive" [(ngModel)]="virtualActive">
+        <label class="form-check-label" for="virtualActive">Active</label>
+      </div>
+
+      <div class="form-group input-group-custom">
+        <label for="virtualGatewayName" class="form-label label-custom">Name</label>
+        <input type="text" class="form-control input-custom" id="virtualGatewayName" name="virtualGatewayName" placeholder="Gateway's Name" [(ngModel)]="virtualGatewayName">
+      </div>
+
+      <div class="form-group input-group-custom">
+        <label for="virtualMacAddress" class="form-label label-custom">MAC Address</label>
+        <div class="input-group">
+          <input type="text" class="form-control input-custom mac-address-input" id="virtualMacAddress" name="virtualMacAddress" placeholder="Gateway's MAC Address" [(ngModel)]="virtualMacAddress">
+          <button type="button" class="btn-icon" (click)="generateMacAddress('virtual')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" class="lucide lucide-rotate-cw">
+                <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+                <path d="M21 3v5h-5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <div class="form-group input-group-custom">
+        <label for="keepAlive" class="form-label label-custom">KeepAlive</label>
+        <input type="number" class="form-control input-custom" id="keepAlive" name="keepAlive" placeholder="KeepAlive in seconds" [(ngModel)]="virtualKeepAlive">
+        <!-- <small class="form-text text-muted">Default value is 30 seconds</small> -->
+      </div>
+
+      <div class="map-container-wrapper">
+        <div id="map" class="map-custom"></div>
+        <div class="map-overlay-container" (mouseenter)="showSearchBox = true" (mouseleave)="showSearchBox = false">
+          <button class="globe-button" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe-2">
+              <path d="M21.54 15H17a2 2 0 0 0-2 2v4.54M7 3.34V5a3 3 0 0 0 3 3h6M5.07 12H2v-.82A9 9 0 0 1 20.77 8M18.42 1.56L17.47 2.51M22.21 4.29L21.26 5.24M2.79 7.71L3.74 6.76M1.56 18.42l.95-.95M18 12h.01M12 18h.01M12 6h.01M6 12h.01M12 12h.01M12 3a9 9 0 0 0-9 9 9 9 0 0 0 9 9 9 9 0 0 0 9-9 9 9 0 0 0-9-9Z" />
+            </svg>
+          </button>
+          <div class="search-box" [class.show-search]="showSearchBox">
+            <input type="text" class="form-control address-input-custom" placeholder="Enter address"
+              [(ngModel)]="searchAddress" name="searchAddress">
+            <button class="btn btn-primary locate-btn-custom" type="button" (click)="searchLocation()">Locate</button>
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-group input-group-custom">
+        <label for="latitude" class="form-label label-custom">Latitude</label>
+        <input type="number" class="form-control input-custom" id="latitude" name="latitude"
+          [(ngModel)]="latitude" (ngModelChange)="onLatLngChange()">
+      </div>
+  
+      <div class="form-group input-group-custom">
+        <label for="longitude" class="form-label label-custom">Longitude</label>
+        <input type="number" class="form-control input-custom" id="longitude" name="longitude"
+          [(ngModel)]="longitude" (ngModelChange)="onLatLngChange()">
+      </div>
+  
+      <div class="form-group input-group-custom">
+        <label for="altitude" class="form-label label-custom">Altitude</label>
+        <input type="number" class="form-control input-custom" id="altitude" name="altitude"
+          [(ngModel)]="altitude">
+      </div>
+      
+      <div class="card-footer add-device-footer-custom">
+        <button type="submit" (click)="createGateway()" class="btn btn-primary save-btn-custom">
+          Save
+        </button>
+      </div>
+
+    </form>
+    
+    <form *ngIf="selectedGatewayType === 'real'">
+      
+      <div class="form-group form-check-custom">
+        <input type="checkbox" class="form-check-input" id="realActive" name="realActive" [(ngModel)]="realActive">
+        <label class="form-check-label" for="realActive">Active</label>
+      </div>
+
+      <div class="form-group input-group-custom">
+        <label for="realGatewayName" class="form-label label-custom">Name</label>
+        <input type="text" class="form-control input-custom" id="realGatewayName" name="realGatewayName" placeholder="Gateway's Name" [(ngModel)]="realGatewayName">
+      </div>
+
+      <div class="form-group input-group-custom">
+        <label for="realMacAddress" class="form-label label-custom">MAC Address</label>
+        <div class="input-group">
+          <input type="text" class="form-control input-custom mac-address-input" id="realMacAddress" name="realMacAddress" placeholder="Gateway's MAC Address" [(ngModel)]="realMacAddress">
+          <button type="button" class="btn-icon" (click)="generateMacAddress('real')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" class="lucide lucide-rotate-cw">
+                <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+                <path d="M21 3v5h-5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <div class="form-group input-group-custom">
+        <label for="realIpv4" class="form-label label-custom">Gateway's IPv4</label>
+        <input type="text" class="form-control input-custom" id="realIpv4" name="realIpv4" [(ngModel)]="realIpv4">
+      </div>
+
+      <div class="form-group input-group-custom">
+        <label for="realPort" class="form-label label-custom">Gateway's Port</label>
+        <input type="text" class="form-control input-custom" id="realPort" name="realPort" [(ngModel)]="realPort">
+      </div>
+
+      <div class="map-container-wrapper">
+        <div id="map" class="map-custom"></div>
+        <div class="map-overlay-container" (mouseenter)="showSearchBox = true" (mouseleave)="showSearchBox = false">
+          <button class="globe-button" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe-2">
+              <path d="M21.54 15H17a2 2 0 0 0-2 2v4.54M7 3.34V5a3 3 0 0 0 3 3h6M5.07 12H2v-.82A9 9 0 0 1 20.77 8M18.42 1.56L17.47 2.51M22.21 4.29L21.26 5.24M2.79 7.71L3.74 6.76M1.56 18.42l.95-.95M18 12h.01M12 18h.01M12 6h.01M6 12h.01M12 12h.01M12 3a9 9 0 0 0-9 9 9 9 0 0 0 9 9 9 9 0 0 0 9-9 9 9 0 0 0-9-9Z" />
+            </svg>
+          </button>
+          <div class="search-box" [class.show-search]="showSearchBox">
+            <input type="text" class="form-control address-input-custom" placeholder="Enter address"
+              [(ngModel)]="searchAddress" name="searchAddress">
+            <button class="btn btn-primary locate-btn-custom" type="button" (click)="searchLocation()">Locate</button>
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-group input-group-custom">
+        <label for="realLatitude" class="form-label label-custom">Latitude</label>
+        <input type="number" class="form-control input-custom" id="realLatitude" name="realLatitude"
+          [(ngModel)]="latitude" (ngModelChange)="onLatLngChange()">
+      </div>
+  
+      <div class="form-group input-group-custom">
+        <label for="realLongitude" class="form-label label-custom">Longitude</label>
+        <input type="number" class="form-control input-custom" id="realLongitude" name="realLongitude"
+          [(ngModel)]="longitude" (ngModelChange)="onLatLngChange()">
+      </div>
+  
+      <div class="form-group input-group-custom">
+        <label for="realAltitude" class="form-label label-custom">Altitude</label>
+        <input type="number" class="form-control input-custom" id="realAltitude" name="realAltitude"
+          [(ngModel)]="altitude">
+      </div>
+      
+      <div class="card-footer add-device-footer-custom">
+        <button type="submit" (click)="createGateway()" class="btn btn-primary save-btn-custom">
+          Save
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

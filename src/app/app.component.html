@@ -1,0 +1,13 @@
+<app-header *ngIf=showHeaderFooter></app-header>
+<div class="mainContent" *ngIf="showHeaderFooter">
+    <div class="col-sm-3" [ngClass]="{ 'sideNav': isShowSideNav, 'sideNav-sm': !isShowSideNav}">
+        <app-nav-menu></app-nav-menu>
+    </div>
+    <div class="col-sm-9" [ngClass]="{ 'content': isShowSideNav == true, 'content-sm': isShowSideNav == false}">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+<div *ngIf="!showHeaderFooter">
+    <router-outlet></router-outlet>
+</div>
+<app-footer *ngIf=showHeaderFooter></app-footer>

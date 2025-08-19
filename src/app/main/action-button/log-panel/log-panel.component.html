@@ -1,0 +1,19 @@
+<div class="log-panel-overlay" (click)="onClose()">
+    <div class="log-panel-container" (click)="$event.stopPropagation()">
+      <div class="log-panel-header">
+        <h3 class="log-panel-title">Logs for Device: {{ devEui }}</h3>
+        <button mat-icon-button (click)="onClose()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="log-panel-body">
+        <div *ngIf="isLoading" class="loading-spinner">
+          Fetching logs...
+        </div>
+        <div *ngIf="error" class="error-message">
+          {{ error }}
+        </div>
+        <pre *ngIf="!isLoading && !error" class="log-content">{{ logs.join('\n') }}</pre>
+      </div>
+    </div>
+  </div>

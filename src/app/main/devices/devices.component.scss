@@ -1,0 +1,96 @@
+.user {
+    height: 8vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h6 {
+    margin: 0;
+    margin-left: 5px;
+    font-size: 1.25rem;
+}
+
+.buttons {
+    display: flex; 
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0px;
+}
+
+.icon-group {
+    display: flex; // Make each group a flex container
+    align-items: center; // Vertically align buttons within the group
+    padding: 0 2.5px; // Add some horizontal padding inside each group, adjust as needed
+}
+
+.left-group {
+    border-right: 1px solid #ccc; 
+}
+
+.middle-group {
+    border-right: 1px solid #ccc;
+}
+
+.button {
+    color:  rgb(31, 49, 71);
+}    
+
+.ag-theme-quartz {
+    --ag-background-color: rgb(243, 243, 243);
+    --ag-header-background-color: rgb(31, 49, 71);;
+    --ag-row-gover-color: rgb(225, 225, 225);  
+    --ag-header-foreground-color:  rgb(243, 243, 243);
+}
+
+.table {
+    height: 82vh;
+}
+
+::ng-deep .mat-mdc-dialog-inner-container {
+    width: 50vw !important;
+    height: 40vh !important;
+}
+
+::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
+    max-width: 70vw !important;
+}
+
+
+/* New styles for the status dot */
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .status-dot-green {
+    background-color: green;
+  }
+  
+  .status-dot-red {
+    background-color: red;
+  }
+  
+  /* Styling for action buttons in cells */
+  .ag-grid-action-button { /* Use the new class name */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Ensure button fills cell height for alignment */
+  }
+  
+  .ag-grid-action-button i.material-icons {
+    color: rgb(31, 49, 71); /* Or your preferred icon color */
+    font-size: 20px; /* Adjust icon size as needed */
+  }
+  
+  .ag-grid-action-button:hover i.material-icons {
+    color: #007bff; /* Hover effect for icons */
+  }

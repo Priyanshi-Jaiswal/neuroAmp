@@ -1,0 +1,71 @@
+<div class="add-device-page-container card">
+    <div class="card-header add-device-header-custom">
+        <h5 class="card-title add-device-title-custom">Add Devices</h5>
+    </div>
+
+    <div class="general-settings-card">
+        <form class="nav-form">
+            <div class="form-group input-group-custom">
+                <label for="numberOfDevices" class="form-label label-custom">Number of Devices</label>
+                <input type="number" class="form-control input-custom" id="numberOfDevices" name="numberOfDevices"
+                    [(ngModel)]="numberOfDevices" required min="1">
+            </div>
+
+            <div class="form-group input-group-custom">
+                <label for="appKey" class="form-label label-custom">App Key</label>
+                <div class="input-group">
+                    <input [type]="showAppKey ? 'text' : 'password'" class="form-control input-custom" id="appKey"
+                        name="appKey" [(ngModel)]="appKey" style="min-width: 34rem;" required>
+                    <button class="btn btn-outline-secondary icon-btn-custom" type="button"
+                        (click)="toggleAppKeyVisibility()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-eye">
+                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                    </button>
+                    <button class="btn btn-outline-secondary generate-btn-custom" type="button"
+                        (click)="generateAppKey()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-rotate-cw">
+                            <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+                            <path d="M21 3v5h-5" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group input-group-custom">
+                <label for="gateway" class="form-label label-custom">Gateway</label>
+                <select id="gateway" [(ngModel)]="selectedGatewayId" name="gateway" class="form-control input-custom"
+                    required>
+                    <option [ngValue]="null" disabled>Select a gateway</option>
+                    <option *ngFor="let gate of gateway" [ngValue]="gate.name">{{ gate.name }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group input-group-custom">
+                <label for="region" class="form-label label-custom">Region</label>
+                <select id="region" name="region" [(ngModel)]="region" class="form-control input-custom" required>
+                    <option value="" disabled selected>Select a region</option> <!-- Updated text -->
+                    <option *ngFor="let opt of regionOptions" [value]="opt">{{ opt }}</option>
+                </select>
+            </div>
+        </form>
+
+        <!-- Message Display Area -->
+        <div *ngIf="message" class="mt-3 p-3 rounded"
+            [ngClass]="{'bg-green-100 text-green-800 border border-green-400': !isError, 'bg-red-100 text-red-800 border border-red-400': isError}">
+            {{ message }}
+        </div>
+
+        <div class="card-footer add-device-footer-custom">
+            <button (click)="addDevices()" class="btn btn-primary save-btn-custom">
+                Save
+            </button>
+        </div>
+    </div>
+</div>

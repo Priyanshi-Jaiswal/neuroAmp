@@ -1,0 +1,60 @@
+.user {
+    height: 8vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h6 {
+    margin: 0;
+    margin-left: 5px;
+    font-size: 1.25rem;
+}
+
+.buttons {
+    display: flex; 
+    justify-content: flex-end;
+}
+
+.button {
+    color: #f3f3f3;
+    margin: 5px 0 0 5px;
+}  
+
+.icon-group {
+    display: flex; 
+    align-items: center; 
+    padding: 0 2.5px; 
+}
+
+.left-group {
+    border-right: 1px solid #ccc; 
+}
+
+.middle-group {
+    border-right: 1px solid #ccc; 
+}
+
+.button {
+    color:  rgb(31, 49, 71);
+}    
+
+.ag-theme-quartz {
+    --ag-background-color: rgb(243, 243, 243);
+    --ag-header-background-color: rgb(31, 49, 71);
+    --ag-row-gover-color: rgb(225, 225, 225);  
+    --ag-header-foreground-color:  rgb(243, 243, 243);
+}
+
+.table {
+    height: 83vh;
+}
+
+::ng-deep .mat-mdc-dialog-inner-container {
+    width: 200vw !important;
+    height: 30vh !important;
+}
+
+::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
+    max-width: 70vw !important;
+}

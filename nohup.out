@@ -1,0 +1,115 @@
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues. You might need to use "--disable-host-check" if that's the
+case.
+    
+- Building...
+
+Initial chunk files | Names         |  Raw size
+styles.css          | styles        | 399.99 kB | 
+main.js             | main          | 212.47 kB | 
+polyfills.js        | polyfills     |  88.34 kB | 
+
+                    | Initial total | 700.81 kB
+
+Application bundle generation complete. [5.320 seconds]
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   https://localhost:4200/
+  ➜  Network: https://10.1.0.26:4200/
+6:28:29 AM [vite] http proxy error: /api/projects/admin
+Error: connect ECONNREFUSED 10.1.0.26:5000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16)
+6:36:43 AM [vite] http proxy error: /api/projects/admin
+Error: connect ECONNREFUSED 10.1.0.26:5000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16)
+6:48:31 AM [vite] http proxy error: /api/projects/admin
+Error: connect ECONNREFUSED 10.1.0.26:5000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16)
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues. You might need to use "--disable-host-check" if that's the
+case.
+    
+- Building...
+
+Initial chunk files | Names         |  Raw size
+styles.css          | styles        | 399.99 kB | 
+main.js             | main          | 212.48 kB | 
+polyfills.js        | polyfills     |  88.34 kB | 
+
+                    | Initial total | 700.82 kB
+
+Application bundle generation complete. [5.438 seconds]
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   https://localhost:4200/
+  ➜  Network: https://10.1.0.26:4200/
+(node:2179) Warning: An error event has already been emitted on the socket. Please use the destroy method on the socket while handling a 'clientError' event.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues. You might need to use "--disable-host-check" if that's the
+case.
+    
+- Building...
+
+Initial chunk files | Names         |  Raw size
+styles.css          | styles        | 399.99 kB | 
+main.js             | main          | 212.48 kB | 
+polyfills.js        | polyfills     |  88.34 kB | 
+
+                    | Initial total | 700.82 kB
+
+Application bundle generation complete. [5.394 seconds]
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   https://localhost:4200/
+  ➜  Network: https://10.1.0.26:4200/
+(node:1851) Warning: An error event has already been emitted on the socket. Please use the destroy method on the socket while handling a 'clientError' event.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues. You might need to use "--disable-host-check" if that's the
+case.
+    
+- Building...
+
+Initial chunk files | Names         |  Raw size
+styles.css          | styles        | 399.99 kB | 
+main.js             | main          | 212.48 kB | 
+polyfills.js        | polyfills     |  88.34 kB | 
+
+                    | Initial total | 700.82 kB
+
+Application bundle generation complete. [6.075 seconds]
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   https://localhost:4200/
+  ➜  Network: https://10.1.0.26:4200/
+10:57:14 AM [vite] http proxy error: /api/ask
+Error: connect ECONNREFUSED 10.1.0.26:5000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16)
+11:14:56 AM [vite] http proxy error: /api/projects/admin
+Error: connect ECONNREFUSED 10.1.0.26:5000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16)

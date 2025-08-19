@@ -1,0 +1,50 @@
+<div *ngIf="isShowSideNav">
+    <ul>
+        <li class="user" [ngClass]="{ 'active': selectedMenu === '/dashboard' }">
+            <div class="label" (click)="dashboard()">
+                <mat-icon class="icons">insert_chart_outlined</mat-icon> Dashboard
+            </div>
+        </li>
+        <li class="user" [ngClass]="{ 'active': selectedMenu === '/devices' }" >
+            <div class="label" (click)="devices()">
+                <mat-icon class="icons">device_hub</mat-icon> Devices
+            </div>
+        </li>
+        <li class="user" [ngClass]="{ 'active': selectedMenu === '/gateways' }" >            
+            <div class="label" (click)="gateways()">
+                <mat-icon class="icons">developer_board</mat-icon> Gateways
+            </div>
+        </li>
+
+        <li class="user" [ngClass]="{ 'active': selectedMenu === '/gatewayBridge' }">
+            <div class="label" (click)="gatewayBridge()">
+                <mat-icon class="icons">memory</mat-icon> Gateway Bridge
+            </div>
+        </li>    
+    </ul>
+</div>
+<div *ngIf="!isShowSideNav">
+    <ul>
+        <li class="user" [ngClass]="{ 'active': selectedMenu === '/dashboard' }">
+            <div class="label" (click)="dashboard()"  matTooltip="Dashboard">
+                <mat-icon class="icons">insert_chart_outlined</mat-icon>
+            </div>
+        </li>
+        <li class="user" [ngClass]="{ 'active': selectedMenu === '/devices' }" >
+            <div class="label" (click)="devices()"  matTooltip="Devices">
+                <mat-icon class="icons">device_hub</mat-icon>
+            </div>
+        </li>
+        <li class="user" [ngClass]="{ 'active': selectedMenu === '/gateways' }" >            
+            <div class="label" (click)="gateways()"  matTooltip="Gateways">
+                <mat-icon class="icons">developer_board</mat-icon>
+            </div>
+        </li>
+
+        <li class="user" [ngClass]="{ 'active': selectedMenu === '/gatewayBridge' }">
+            <div class="label" (click)="gatewayBridge()"  matTooltip="Gateway Bridge">
+                <mat-icon class="icons">memory</mat-icon>
+            </div>
+        </li>
+    </ul>
+</div>

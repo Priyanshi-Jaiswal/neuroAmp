@@ -1,0 +1,44 @@
+<div class="gateway-bridge-header">
+  <h6>Gateway Bridge</h6>
+</div>
+
+<div class="gateway-bridge-container">
+    <!-- <div class="gateway-bridge-header">
+      <h5>Gateway Bridge</h5>
+    </div> -->
+  
+    <div class="gateway-bridge-form">
+      <form (ngSubmit)="saveGatewayBridge()">
+        <div class="form-group input-group-custom">
+          <label for="bridgeAddress" class="form-label label-custom">Gateway Bridge's address</label>
+          <input 
+            type="text" 
+            id="bridgeAddress" 
+            name="bridgeAddress" 
+            class="form-control input-custom" 
+            placeholder="Correct format: IPv4 or URL" 
+            [(ngModel)]="bridgeData.address"
+          >
+          <!-- <small class="form-text text-muted">Correct format: IPv4 or URL</small> -->
+        </div>
+  
+        <div class="form-group input-group-custom">
+          <label for="bridgePort" class="form-label label-custom">Gateway Bridge's Port</label>
+          <input 
+            type="number" 
+            id="bridgePort" 
+            name="bridgePort" 
+            class="form-control input-custom" 
+            [(ngModel)]="bridgeData.port"
+          >
+        </div>
+  
+        <div class="card-footer add-device-footer-custom">
+            <button type="submit" (click)="saveGatewayBridge()" class="btn btn-primary save-btn-custom">
+              Save
+            </button>
+          </div>
+
+      </form>
+    </div>
+  </div>

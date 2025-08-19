@@ -1,0 +1,73 @@
+<div style="width: 98%; margin: 0 1%;">
+    <div class="user">
+        <div class="project">
+            <h6>List Devices</h6>
+        </div>
+
+        <div>
+            <div class="buttons">
+                <div class="icon-group left-group">
+                    <button mat-icon-button class="button" matTooltip="Add Device" (click)="navigateToAddDevicePage()">
+                        <mat-icon>add_box</mat-icon>
+                    </button>
+
+                    <button mat-icon-button class="button" matTooltip="Add Bulk Device" (click)="addBulkDevice()">
+                        <mat-icon>library_add</mat-icon>
+                    </button>
+
+                    <button mat-icon-button class="button" matTooltip="Edit Device" (click)="navigateToEditDevicePage()">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button mat-icon-button class="button" matTooltip="Delete" (click)="deleteDevice()">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+
+                <div class="icon-group left-group">
+                    <button mat-icon-button class="button" matTooltip="Join Request" (click)="startSelectedDevices()" [disabled]="!hasSelection() || !allSelectedArePaused()">
+                        <mat-icon>play_arrow</mat-icon>
+                    </button>
+                
+                    <button mat-icon-button class="button" matTooltip="Unjoin Request" (click)="stopSelectedDevices()" [disabled]="!hasSelection() || !allSelectedArePlaying()">
+                        <mat-icon>pause</mat-icon>
+                    </button>
+
+                    <button mat-icon-button class="button" matTooltip="Start Uplinks" (click)="startAllUplinkDevice()" [disabled]="!hasSelection() || !allSelectedUplinkIsStopped() || !allSelectedArePlaying()">
+                        <mat-icon>publish</mat-icon>
+                      </button>
+
+                      <button mat-icon-button class="button" matTooltip="Stop Uplinks" (click)="stopAllUplinkDevice()" [disabled]="!hasSelection() || !allSelectedUplinkIsRunning() || !allSelectedArePlaying()">
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ag-grid-angular class="ag-theme-quartz table" 
+        [rowData]="devices" 
+        [columnDefs]="colDefs" 
+        [rowSelection]="'multiple'"
+        [animateRows]="true"
+        [pagination]="true"
+        [paginationPageSizeSelector]="paginationPageSizeSelector" 
+        [getRowId]="getRowId" 
+        (rowSelected)="onRowSelected($event)" 
+        (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+
+    <app-log-panel
+    *ngIf="showLogPanel"
+    [devEui]="selectedDevEuiForLogs"
+    (closePanel)="showLogPanel = false">
+</app-log-panel>
+
+
+    <div *ngIf="isLoading" class="loading-overlay">
+        Loading devices...
+      </div>
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+</div>

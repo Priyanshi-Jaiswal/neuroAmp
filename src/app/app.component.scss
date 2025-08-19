@@ -1,0 +1,27 @@
+.mainContent {
+    width: 100vw;
+    height: 91vh;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.sideNav {
+    width: 16vw;
+    height: 91vh;
+    background-color: rgb(31, 49, 71);
+}
+
+.sideNav-sm {
+    width: 5.5vw;
+    height: 91vh;
+    background-color: rgb(31, 49, 71);
+}
+
+.content {
+    width: 84vw;
+}
+
+.content-sm {
+    width: 94.5vw;
+}

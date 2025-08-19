@@ -1,0 +1,29 @@
+<div class="header">
+    <div class="left">
+      <div class="hamburger mat-button" (click)="toggle()">
+        <mat-icon>menu</mat-icon>
+      </div>
+      <!-- <h5>LWN Simulator</h5> -->
+      <div class="img">
+        <img src="assets/genisis.png" alt="">
+      </div>
+      <h5>NeuroAmp Simulator</h5>
+    </div>
+    <div class="user">
+      <div class="time">
+        <p>{{ user }}</p>
+        <p>{{ loginDateTime }}</p>
+      </div>
+      <button class="profile" mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <div>
+        <mat-menu #menu="matMenu" class="customize">
+          <div (click)="logout()" mat-menu-item>
+            <mat-icon style="color: rgb(243, 243, 243);">cloud_off</mat-icon>
+            <span style="color: rgb(243, 243, 243);">logout</span>
+          </div>
+        </mat-menu>
+      </div>
+    </div>
+  </div>

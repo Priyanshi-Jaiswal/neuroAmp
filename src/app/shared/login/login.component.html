@@ -1,0 +1,28 @@
+
+<div class="login-container">
+    <div class="left-panel">
+        <img src="assets/neuroamp_loginpage.png" alt="neuroamp loginpage" class="genesis-logo">
+        <div class="background-image-overlay">
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <h3>NeuroAmp Simulator</h3>
+        <!-- <p class="powered-by">Powered by Cognizant's Genesis.ai</p> -->
+
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <div class="form-group">
+                <input type="text" placeholder="Username" id="username" formControlName="username"
+                    class="form-control form-control-lg" required>
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Password" id="password" formControlName="password"
+                    class="form-control form-control-lg" required>
+            </div>
+            <div class="login-button">
+                    <a href="#">Forgot password?</a>
+                <button class="btn btn-outline-light btn-lg" type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+</div>

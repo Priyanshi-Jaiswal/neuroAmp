@@ -1,0 +1,121 @@
+$primary-blue: rgb(35, 67, 102);
+$dark-blue-text: rgb(31, 49, 71);
+$gray-text: #616161;
+$light-gray-bg: #F5F5F5;
+$border-color: #E0E0E0;
+$input-border-color: #D1D5DB;
+$input-focus-border: #93C5FD;
+$input-focus-shadow: rgba(147, 197, 253, 0.5); 
+$card-border-color: #F0F0F0; 
+
+.add-device-page-container.card {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0; 
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-height: 100vh; 
+    overflow: hidden; 
+    margin: 0; 
+    width: 100%; 
+    border: 1px solid $card-border-color; 
+}
+
+.add-device-header-custom.card-header {
+    background-color: rgba(231, 231, 231, 0.95); 
+    margin-bottom: 0; 
+    padding: 1rem 1.5rem;
+    padding-bottom: 0;
+    border-bottom: 1px solid $card-border-color; 
+}
+
+.add-device-title-custom.card-title {
+    font-weight: 500; 
+    color: $dark-blue-text; 
+    padding-left: 1rem;
+}
+
+.general-settings-card {
+    background-color: #fff;
+    padding-top: 0.75rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.nav-form {
+    padding-top: 1rem;
+    padding-left: 1.5rem;
+}
+
+.input-group-custom {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .form-label {
+        align-content: center;
+        min-width: 9rem
+    }
+}
+
+.input-group {
+    display: flex;
+    gap: 15px;
+}
+
+.input-custom.form-control {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid $input-border-color;
+    border-radius: 0.25rem;
+    font-size: 0.95rem;
+    color: #333;
+    height: 38px;
+    min-width: 40rem;
+
+    &:focus {
+        border-color: $input-focus-border;
+        box-shadow: 0 0 0 0.1rem $input-focus-shadow;
+        outline: none;
+    }
+}
+
+.label-custom.form-label {
+    font-size: 1rem;
+    color: #495057;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+    text-align: right;
+}
+
+.add-device-footer-custom.card-footer {
+    background-color: #fff;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0;
+    padding: 1.5rem 2.5rem;
+    border-top: 1px solid $card-border-color;
+}
+
+.save-btn-custom.btn-primary {
+    background-color: $primary-blue;
+    color: #f3f3f3;
+    padding: 0.75rem 2rem;
+    font-size: 1em;
+    font-weight: 300;
+    border-radius: 0.375rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    &:hover {
+        background-color: #f3f3f3;
+        color: #252525;
+    }
+    &:focus {
+        box-shadow: 0 0 0 0.25rem rgba($primary-blue, 0.25);
+    }
+}

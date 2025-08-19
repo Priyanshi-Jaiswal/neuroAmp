@@ -1,0 +1,100 @@
+$primary-blue: rgb(35, 67, 102);
+$dark-blue-text: rgb(31, 49, 71);
+$gray-text: #616161;
+$light-gray-bg: #F5F5F5;
+$border-color: #E0E0E0;
+$input-border-color: #D1D5DB;
+$input-focus-border: #93C5FD;
+$input-focus-shadow: rgba(147, 197, 253, 0.5);
+$card-border-color: #F0F0F0;
+
+
+h6 {
+  margin-top: 10px;
+  margin-left: 17px;  
+  font-size: 1.25rem;
+}
+
+.gateway-bridge-container {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    margin: 1rem auto;
+    // max-width: 800px;
+    width: 98%;
+    height: 89%;
+  
+    @media (min-width: 768px) {
+      padding: 2rem;
+    }
+  
+    .gateway-bridge-form {
+      .form-group.input-group-custom {
+          margin-bottom: 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 15px;
+      
+          .form-label {
+            align-content: center;
+            min-width: 5rem
+        }
+      }
+      
+      .input-group {
+        display: flex;
+        gap: 15px;
+      }
+      
+      .form-label.label-custom {
+        font-size: 1rem;
+          color: #495057;
+          font-weight: 500;
+          margin-bottom: 0.5rem;
+          display: block;
+          text-align: right;
+          width: 13vw;
+      }
+      
+      .input-custom.form-control {
+        padding: 0.6rem 0.8rem;
+        border: 1px solid $input-border-color;
+        border-radius: 0.25rem;
+        font-size: 0.95rem;
+        color: #333;
+        height: 38px;
+        min-width: 60vw;
+      
+        &:focus {
+            border-color: $input-focus-border;
+            box-shadow: 0 0 0 0.1rem $input-focus-shadow;
+            outline: none;
+        }
+      }
+  
+        .card-footer.add-device-footer-custom {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1rem 0;
+            border-top: 1px solid $card-border-color;
+            margin-top: 2rem;
+          }
+          
+          .save-btn-custom {
+            background-color: $primary-blue;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+          
+            &:hover {
+              background-color: darken($primary-blue, 10%);
+            }
+          }
+      }
+    }

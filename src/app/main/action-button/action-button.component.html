@@ -1,0 +1,17 @@
+<div class="action-buttons">
+    <button mat-icon-button (click)="onStartClick()" matTooltip="Join Request" [disabled]="isStarted">
+      <mat-icon class="mat-play">play_arrow</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onStopClick()" matTooltip="Unjoin Request" [disabled]="!isStarted">
+      <mat-icon class="mat-stop">pause</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onStartUplink()" matTooltip="Start Uplink" [disabled]="!isStarted || isUplinkRunning">
+      <mat-icon class="mat-uplink">publish</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onStopUplink()" matTooltip="Stop Uplink" [disabled]="!isStarted || !isUplinkRunning">
+      <mat-icon class="mat-uplink">cancel</mat-icon>
+    </button>
+    <button *ngIf="isDevice" mat-icon-button (click)="onViewLogs()" matTooltip="View Logs" [disabled]="!isStarted">
+      <mat-icon class="mat-logs">insert_comment</mat-icon>
+    </button>
+  </div>
