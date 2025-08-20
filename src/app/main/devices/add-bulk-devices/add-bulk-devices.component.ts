@@ -8,11 +8,12 @@ import { AppService } from '../../../app.service';
 })
 export class AddBulkDevicesComponent implements OnInit {
   numberOfDevices: number | undefined;
-  appKey: string = '';
+  name: string = '';
+  // appKey: string = '';
   showAppKey: boolean = false;
   selectedGatewayId: string | null = null;
   gateway: any[] = [];
-  region: string = '';
+  region: string | null = null;
   regionOptions: string[] = ['US915', 'EU868', 'AS923', 'AU915'];
 
   message: string | null = null;
@@ -32,20 +33,20 @@ export class AddBulkDevicesComponent implements OnInit {
     });
   }
 
-  private generateRandomHexString(length: number): string {
-    let result = '';
-    const characters = '0123456789ABCDEF';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
+  // private generateRandomHexString(length: number): string {
+  //   let result = '';
+  //   const characters = '0123456789ABCDEF';
+  //   const charactersLength = characters.length;
+  //   for (let i = 0; i < length; i++) {
+  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  //   }
+  //   return result;
+  // }
 
-  generateAppKey(): void {
-    this.appKey = this.generateRandomHexString(32);
-    console.log('Generated App Key:', this.appKey);
-  }
+  // generateAppKey(): void {
+  //   this.appKey = this.generateRandomHexString(32);
+  //   console.log('Generated App Key:', this.appKey);
+  // }
 
   toggleAppKeyVisibility(): void {
     this.showAppKey = !this.showAppKey;
@@ -57,14 +58,18 @@ export class AddBulkDevicesComponent implements OnInit {
       this.showMessage('Please enter a valid number of devices (greater than 0).', true);
       return;
     }
+    if (!this.name) {
+      this.showMessage('Please enter the name.', true);
+      return;
+    }
     if (!this.gateway) {
       this.showMessage('Please select a gateway.', true);
       return;
     }
-    if (!this.appKey) {
-      this.showMessage('App Key cannot be empty. Please generate one or enter manually.', true);
-      return;
-    }
+    // if (!this.appKey) {
+    //   this.showMessage('App Key cannot be empty. Please generate one or enter manually.', true);
+    //   return;
+    // }
     if (!this.region) {
       this.showMessage('Please select a region.', true);
       return;
@@ -72,7 +77,8 @@ export class AddBulkDevicesComponent implements OnInit {
 
     const deviceData = {
       numberOfDevices: this.numberOfDevices,
-      appKey: this.appKey,
+      name: this.name,
+      // appKey: this.appKey,
       gateway: this.selectedGatewayId,
       region: this.region
     };
@@ -97,8 +103,9 @@ export class AddBulkDevicesComponent implements OnInit {
 
   private resetForm(): void {
     this.numberOfDevices = undefined;
-    this.appKey = '';
-    this.showAppKey = false;
+    this.name = '';
+    // this.appKey = '';
+    // this.showAppKey = false;
     this.selectedGatewayId = null;
     this.region = '';
   }

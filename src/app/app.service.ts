@@ -43,7 +43,7 @@ export class AppService {
     return this.http.get(`${this.apiUrl}/dashboard/total_count`);
   }
 
-  createBulkDevices(data: { numberOfDevices: number | undefined; appKey: string; gateway: string | null; region: string; }): Observable<any> {
+  createBulkDevices(data: { numberOfDevices: number | undefined; name: string; gateway: string | null; region: string; }): Observable<any> {
     return this.http.post(`${this.apiUrl}/devices/` + this.user + `/bulk`, data);
   }
 
