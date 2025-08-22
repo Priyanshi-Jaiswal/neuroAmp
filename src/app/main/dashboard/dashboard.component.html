@@ -1,5 +1,4 @@
-<!-- src/app/dashboard/dashboard.component.html -->
-<div class="dashboard-container">
+<!-- <div class="dashboard-container">
     <h6 class="dashboard-title">Dashboard</h6>
   
     <div *ngIf="isLoading" class="loading-message">
@@ -33,5 +32,57 @@
           <span class="card-value">{{ connectedDevices }}</span>
         </div>
       </div>
+    </div>
+  </div> -->
+
+
+
+  
+  <div class="dashboard-container-clean">
+    <div class="dashboard-header-clean">
+      <h6 class="dashboard-title-clean">Dashboard</h6>
+    </div>
+    
+    <div *ngIf="isLoading" class="loading-message-clean">
+      Loading data...
+    </div>
+  
+    <div *ngIf="!isLoading" class="cards-grid-clean">
+      <div class="card-clean">
+        <div class="card-left-section">
+          <div class="card-icon-clean">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu-cog"><rect x="4" y="4" width="16" height="16" rx="2" /><rect x="9" y="9" width="6" height="6" rx="1" /><path d="M6 2v2"/><path d="M2 6h2"/><path d="M20 6h2"/><path d="M6 20v2"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="M18 2v2"/><path d="M18 20v2"/><circle cx="12" cy="12" r="1"/><path d="M19 19c.9 0 1.7.4 2.3 1s1 1.4 1 2.3.4 1.7 1 2.3 1.4 1 2.3 1"/><path d="M19 19c-.9 0-1.7.4-2.3 1s-1 1.4-1 2.3-.4 1.7-1 2.3-1.4 1-2.3 1"/><path d="M19 19c.9 0 1.7-.4 2.3-1s1-1.4 1-2.3-.4-1.7-1-2.3-1.4-1-2.3-1"/><path d="M19 19c-.9 0-1.7-.4-2.3-1s-1-1.4-1-2.3.4-1.7 1-2.3 1.4-1 2.3-1"/></svg>
+          </div>
+        </div>
+        <div class="card-right-section">
+          <h3 class="card-title-clean">Devices</h3>
+          <span class="card-value-clean">{{ totalDevices }}</span>
+        </div>
+      </div>
+  
+      <div class="card-clean">
+        <div class="card-left-section">
+          <div class="card-icon-clean">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server"><rect width="20" height="8" x="2" y="2" rx="2"/><path d="M2 12h20"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01"/><path d="M6 18h.01"/></svg>
+          </div>
+        </div>
+        <div class="card-right-section">
+          <h3 class="card-title-clean">Gateways</h3>
+          <span class="card-value-clean">{{ totalGateways }}</span>
+        </div>
+      </div>
+
+      <div class="card-clean card-connected-clean">
+        <div class="card-left-section">
+          <div class="card-icon-clean">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-power"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.7.0"/></svg>
+          </div>
+        </div>
+        <div class="card-right-section">
+          <h3 class="card-title-clean">Devices Connected</h3>
+          <span class="card-value-clean">{{ connectedDevices }}</span>
+        </div>
+      </div>
+  
     </div>
   </div>

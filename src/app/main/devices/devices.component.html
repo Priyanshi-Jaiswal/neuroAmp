@@ -1,7 +1,7 @@
 <div style="width: 98%; margin: 0 1%;">
     <div class="user">
         <div class="project">
-            <h6>List Devices</h6>
+            <h6>Simulated Devices</h6>
         </div>
 
         <div>
@@ -15,7 +15,8 @@
                         <mat-icon>library_add</mat-icon>
                     </button>
 
-                    <button mat-icon-button class="button" matTooltip="Edit Device" (click)="navigateToEditDevicePage()">
+                    <button mat-icon-button class="button" matTooltip="Edit Device"
+                        (click)="navigateToEditDevicePage()">
                         <mat-icon>edit</mat-icon>
                     </button>
 
@@ -25,21 +26,25 @@
                 </div>
 
                 <div class="icon-group left-group">
-                    <button mat-icon-button class="button" matTooltip="Join Request" (click)="startSelectedDevices()" [disabled]="!hasSelection() || !allSelectedArePaused()">
+                    <button mat-icon-button class="button" matTooltip="Join Request" (click)="startSelectedDevices()"
+                        [disabled]="!hasSelection() || !allSelectedArePaused()">
                         <mat-icon>play_arrow</mat-icon>
                     </button>
-                
-                    <button mat-icon-button class="button" matTooltip="Unjoin Request" (click)="stopSelectedDevices()" [disabled]="!hasSelection() || !allSelectedArePlaying()">
+
+                    <button mat-icon-button class="button" matTooltip="Unjoin Request" (click)="stopSelectedDevices()"
+                        [disabled]="!hasSelection() || allSelectedArePlaying()">
                         <mat-icon>pause</mat-icon>
                     </button>
 
-                    <button mat-icon-button class="button" matTooltip="Start Uplinks" (click)="startAllUplinkDevice()" [disabled]="!hasSelection() || !allSelectedUplinkIsStopped() || !allSelectedArePlaying()">
+                    <button mat-icon-button class="button" matTooltip="Start Uplinks" (click)="startAllUplinkDevice()"
+                        [disabled]="!hasSelection() || !allSelectedUplinkIsStopped() || !allSelectedArePlaying()">
                         <mat-icon>publish</mat-icon>
-                      </button>
+                    </button>
 
-                      <button mat-icon-button class="button" matTooltip="Stop Uplinks" (click)="stopAllUplinkDevice()" [disabled]="!hasSelection() || !allSelectedUplinkIsRunning() || !allSelectedArePlaying()">
+                    <button mat-icon-button class="button" matTooltip="Stop Uplinks" (click)="stopAllUplinkDevice()"
+                        [disabled]="!hasSelection() || !allSelectedUplinkIsRunning() || !allSelectedArePlaying()">
                         <mat-icon>cancel</mat-icon>
-                      </button>
+                    </button>
                 </div>
             </div>
         </div>
@@ -47,27 +52,24 @@
 
     <ag-grid-angular class="ag-theme-quartz table" 
         [rowData]="devices" 
-        [columnDefs]="colDefs" 
-        [rowSelection]="'multiple'"
-        [animateRows]="true"
+        [columnDefs]="colDefs"
+        [rowSelection]="'multiple'" 
+        [animateRows]="true" 
         [pagination]="true"
         [paginationPageSizeSelector]="paginationPageSizeSelector" 
-        [getRowId]="getRowId" 
+        [getRowId]="getRowId"
         (rowSelected)="onRowSelected($event)" 
         (gridReady)="onGridReady($event)">
     </ag-grid-angular>
 
-    <app-log-panel
-    *ngIf="showLogPanel"
-    [devEui]="selectedDevEuiForLogs"
-    (closePanel)="showLogPanel = false">
-</app-log-panel>
+    <app-log-panel *ngIf="showLogPanel" [devEui]="selectedDevEuiForLogs" (closePanel)="showLogPanel = false">
+    </app-log-panel>
 
 
     <div *ngIf="isLoading" class="loading-overlay">
         Loading devices...
-      </div>
-      <div *ngIf="errorMessage" class="error-message">
+    </div>
+    <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}
-      </div>
+    </div>
 </div>

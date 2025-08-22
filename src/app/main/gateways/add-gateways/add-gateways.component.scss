@@ -89,7 +89,8 @@ $card-border-color: #F0F0F0;
 }
 
 .input-custom.form-control {
-  padding: 0.6rem 0.8rem;
+  // padding: 0.6rem 0.8rem;
+  padding-left: 10px;
   border: 1px solid $input-border-color;
   border-radius: 0.25rem;
   font-size: 0.95rem;

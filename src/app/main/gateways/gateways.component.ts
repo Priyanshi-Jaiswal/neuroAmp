@@ -15,11 +15,11 @@ export class GatewaysComponent implements OnInit {
   selectedRow: any[] = [];
   rowData: any[] = [];
   colDefs: ColDef[] = [
-    { field: "select", headerName: "Select", checkboxSelection: true, headerCheckboxSelection: true, flex: 0.75 },
+    { field: "select", headerName: "", checkboxSelection: true, headerCheckboxSelection: true, flex: 0.3 },
     { field: "name", headerName: "Name", filter: 'agTextColumnFilter', flex: 2 },
     { field: "macAddress", headerName: "MAC Address", filter: 'agTextColumnFilter', flex: 2 },
     { field: "type", headerName: "Type", filter: 'agTextColumnFilter', flex: 1.5 },
-    { field: "no_of_devices", headerName: "No. of Devices", filter: 'agTextColumnFilter', flex: 1 },
+    { field: "no_of_devices", headerName: "No. of Devices", filter: 'agTextColumnFilter', flex: 1.5 },
   
     {
       field: "action",

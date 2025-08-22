@@ -23,16 +23,15 @@ export class DevicesComponent implements OnInit {
   public selectedDevEuiForLogs: string | null = null;
 
   colDefs: ColDef[] = [
-    { field: "select", headerName: "Select", checkboxSelection: true, headerCheckboxSelection: true, flex: 0.75 },
+    { field: "select", headerName: "", checkboxSelection: true, headerCheckboxSelection: true, flex: 0.3 },
     {
       field: "status",
       headerName: "Status",
-      filter: 'agTextColumnFilter',
       flex: 0.6,
       cellRenderer: (params: ICellRendererParams) => {
         const status = params.data?.currentStatus;
         let color = status === 'playing' ? 'green' : 'red';
-        return `<div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+        return `<div style="display: flex; align-items: center; justify-content: left; height: 100%;">
                   <div style="width: 10px; height: 10px; border-radius: 50%; background-color: ${color};"></div>
                 </div>`;
       },
