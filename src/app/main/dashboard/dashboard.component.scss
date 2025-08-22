@@ -1,64 +1,3 @@
-// .dashboard-container {
-//     padding: 24px;
-//     background-color: #f9fafb;
-//     min-height: calc(100vh - 64px); /* Adjust based on your header height */
-//   }
-  
-//   h6 {
-//     // margin: 0;
-//     // margin-left: 5px;
-//     margin-top: -10px;
-//     margin-bottom: 1rem;
-//     font-size: 1.25rem;
-// }
-  
-//   .loading-message {
-//     font-size: 1.25rem;
-//     color: #6b7280;
-//     text-align: center;
-//     margin-top: 50px;
-//   }
-  
-//   .cards-container {
-//     display: grid;
-//     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-//     gap: 24px;
-//   }
-  
-//   .card {
-//     background-color: #ffffff;
-//     border-radius: 12px;
-//     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-//     padding: 20px;
-//     border: 1px solid #e5e7eb;
-//     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-//     text-align: center;
-//   }
-  
-//   .card:hover {
-//     transform: translateY(-5px);
-//     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-//   }
-  
-//   .card-title {
-//     font-size: 2.5rem;
-//     // font-weight: 500;
-//     // font-family: Roboto, "Helvetica Neue", sans-serif;
-//     // color: #6b7280;
-//     margin-bottom: 2rem;
-//     align-items: center;
-//   }
-  
-//   .card-value {
-//     font-size: 2.5rem;
-//     // font-weight: 700;
-//     color: #1f2937;
-//   }
-
-
-
-
-/* A modern, professional font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 .dashboard-container-clean {
@@ -100,9 +39,9 @@
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05), 0 1px 5px rgba(0, 0, 0, 0.03);
   padding: 2.5rem;
-  display: flex; /* Use flexbox for horizontal alignment */
+  display: flex; 
   justify-content: space-between;
-  align-items: center; /* Center content vertically */
+  align-items: center; 
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   cursor: pointer;
 
@@ -115,7 +54,7 @@
 /* Card Sections */
 .card-left-section {
   flex-shrink: 0;
-  width: 30%; /* Occupies 1/3rd of the space */
+  width: 30%; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,25 +62,24 @@
 }
 
 .card-right-section {
-  width: 70%; /* Occupies 2/3rd of the space */
+  width: 70%; 
   display: flex;
   flex-direction: column;
-  align-items: center; /* Align content to the left */
+  align-items: center; 
   text-align: center;
 }
 
-/* Icon Styles */
 .card-icon-clean {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%; /* Take full width of its container */
+  width: 100%; 
   height: 100%;
   
   svg {
-    width: 70px; /* Larger icon size */
+    width: 70px; 
     height: 70px;
-    color: rgb(13, 109, 218); /* Same professional gray for all icons */
+    color: rgb(13, 109, 218); 
     stroke-width: 2.5px;
   }
 }
@@ -156,7 +94,7 @@
 }
 
 .card-value-clean {
-  font-size: 2.5rem; /* Larger font size for the value */
+  font-size: 2.5rem; 
   // font-weight: 700;
   // color: #212529;
   display: block;

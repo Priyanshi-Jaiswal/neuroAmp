@@ -33,25 +33,6 @@ export class AddBulkDevicesComponent implements OnInit {
     });
   }
 
-  // private generateRandomHexString(length: number): string {
-  //   let result = '';
-  //   const characters = '0123456789ABCDEF';
-  //   const charactersLength = characters.length;
-  //   for (let i = 0; i < length; i++) {
-  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  //   }
-  //   return result;
-  // }
-
-  // generateAppKey(): void {
-  //   this.appKey = this.generateRandomHexString(32);
-  //   console.log('Generated App Key:', this.appKey);
-  // }
-
-  toggleAppKeyVisibility(): void {
-    this.showAppKey = !this.showAppKey;
-  }
-
   addDevices (): void {
     this.message = null; 
     if (!this.numberOfDevices || this.numberOfDevices <= 0) {
