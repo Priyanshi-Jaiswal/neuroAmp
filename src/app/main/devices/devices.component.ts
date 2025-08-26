@@ -32,7 +32,7 @@ export class DevicesComponent implements OnInit {
         const status = params.data?.currentStatus;
         let color = status === 'playing' ? 'green' : 'red';
         return `<div style="display: flex; align-items: center; justify-content: left; height: 100%;">
-                  <div style="width: 10px; height: 10px; border-radius: 50%; background-color: ${color};"></div>
+                  <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${color};"></div>
                 </div>`;
       },
     },
