@@ -1,84 +1,8 @@
-// .user {
-//     height: 8vh;
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-// }
-
-// h6 {
-//     margin: 0;
-//     margin-left: 5px;
-//     font-size: 1.25rem;
-// }
-
-// .buttons {
-//     display: flex; 
-//     justify-content: flex-end;
-// }
-
-// .button {
-//     color: #f3f3f3;
-//     margin: 5px 0 0 5px;
-// }  
-
-// .icon-group {
-//     display: flex; 
-//     align-items: center; 
-//     padding: 0 2.5px; 
-// }
-
-// .left-group {
-//     border-right: 1px solid #ccc; 
-// }
-
-// .middle-group {
-//     border-right: 1px solid #ccc; 
-// }
-
-// .button {
-//     color:  rgb(31, 49, 71);
-// }    
-
-// .ag-theme-quartz {
-//     --ag-background-color: rgb(243, 243, 243);
-//     --ag-header-background-color: rgb(31, 49, 71);
-//     --ag-row-gover-color: rgb(225, 225, 225);  
-//     --ag-header-foreground-color:  rgb(243, 243, 243);
-//     --ag-icon-font-color-menu: rgb(243, 243, 243);
-//     --ag-icon-font-color-asc: rgb(243, 243, 243);
-//     --ag-icon-font-color-filter: rgb(243, 243, 243);
-// }
-
-// .table {
-//     height: 83vh;
-// }
-
-// ::ng-deep .mat-mdc-dialog-inner-container {
-//     width: 200vw !important;
-//     height: 30vh !important;
-// }
-
-// ::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
-//     max-width: 70vw !important;
-// }
-
-
-
-
-
-
-
-/* gateways.component.scss */
-
 .main-container {
     width: 98%;
     margin: 0 1%;
     display: flex;
     flex-direction: column;
-    /* Remove a fixed viewport height and let the content define the height. */
-    /* Use overflow-y: auto to allow scrolling when content exceeds the viewport. */
-    // overflow-y: auto;
-    /* Optional: Set a min-height to ensure it takes up at least the viewport height */
     height: 100vh;
 }
 
@@ -169,19 +93,6 @@ h6 {
     border-radius: 0.5rem;
     /* Set a large height for the map so the user has to scroll to see it all */
     height: 100vh;
-}
-
-.splitter-handle {
-    height: 10px;
-    background-color: #ccc;
-    cursor: ns-resize;
-    border-top: 1px solid #999;
-    border-bottom: 1px solid #999;
-    transition: background-color 0.2s ease;
-}
-
-.splitter-handle:hover {
-    background-color: #999;
 }
 
 .map {
