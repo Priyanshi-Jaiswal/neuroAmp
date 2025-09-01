@@ -68,12 +68,21 @@
 
 
 
+/* gateways.component.scss */
+
 .main-container {
     width: 98%;
     margin: 0 1%;
     display: flex;
     flex-direction: column;
-    height: 200vh;
+    /* Remove a fixed viewport height and let the content define the height. */
+    /* Use overflow-y: auto to allow scrolling when content exceeds the viewport. */
+    // overflow-y: auto;
+    /* Optional: Set a min-height to ensure it takes up at least the viewport height */
+    height: 100vh;
+}
+
+.div-container {
     overflow-y: auto;
 }
 
@@ -91,45 +100,46 @@ h6 {
 }
 
 .buttons {
-    display: flex; 
+    display: flex;
     justify-content: flex-end;
 }
 
 .button {
     color: #f3f3f3;
     margin: 5px 0 0 5px;
-}  
+}
 
 .icon-group {
-    display: flex; 
-    align-items: center; 
-    padding: 0 2.5px; 
+    display: flex;
+    align-items: center;
+    padding: 0 2.5px;
 }
 
 .left-group {
-    border-right: 1px solid #ccc; 
+    border-right: 1px solid #ccc;
 }
 
 .middle-group {
-    border-right: 1px solid #ccc; 
+    border-right: 1px solid #ccc;
 }
 
 .button {
-    color:  rgb(31, 49, 71);
-}    
+    color: rgb(31, 49, 71);
+}
 
 .ag-theme-quartz {
     --ag-background-color: rgb(243, 243, 243);
     --ag-header-background-color: rgb(31, 49, 71);
-    --ag-row-gover-color: rgb(243, 243, 243);  
-    --ag-header-foreground-color:  rgb(243, 243, 243);
+    --ag-row-gover-color: rgb(243, 243, 243);
+    --ag-header-foreground-color: rgb(243, 243, 243);
     --ag-icon-font-color-menu: rgb(243, 243, 243);
     --ag-icon-font-color-asc: rgb(243, 243, 243);
     --ag-icon-font-color-filter: rgb(243, 243, 243);
 }
 
 .table {
-    height: 55vh;
+    /* Set a fixed height for the table */
+    height: 85vh;
 }
 
 ::ng-deep .mat-mdc-dialog-inner-container {
@@ -141,38 +151,30 @@ h6 {
     max-width: 70vw !important;
 }
 
-.half-page-container .table-container {
-    flex: 1; /* Both containers take up an equal amount of space */
+.half-page-container {
+    flex: 0 0 auto; /* Prevent containers from shrinking or growing with flex */
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    // min-height: 50vh; /* Minimum height to prevent shrinking too much */
-    // max-height: 80vh;
-}
-
-.half-page-container .map-container {
-    flex: 1; /* Both containers take up an equal amount of space */
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    max-height: 60vh;
 }
 
 .table-container {
-    // height: 50%;
+    /* Set a fixed height for the table container */
+    height: 70vh;
 }
 
 .map-container {
     border-top: none;
     border: 1px solid #E0E0E0;
     border-radius: 0.5rem;
-    height: 75vh;
+    /* Set a large height for the map so the user has to scroll to see it all */
+    height: 100vh;
 }
 
 .splitter-handle {
     height: 10px;
     background-color: #ccc;
-    cursor: ns-resize; /* North-South resize cursor */
+    cursor: ns-resize;
     border-top: 1px solid #999;
     border-bottom: 1px solid #999;
     transition: background-color 0.2s ease;
@@ -185,5 +187,4 @@ h6 {
 .map {
     width: 100%;
     height: 100%
-
 }
