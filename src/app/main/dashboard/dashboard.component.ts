@@ -3,8 +3,6 @@ import { AppService } from '../../app.service';
 import { Chart, registerables } from 'chart.js';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
-// Register all Chart.js components
 Chart.register(...registerables);
 
 @Component({
@@ -55,23 +53,22 @@ export class DashboardComponent implements OnInit {
       )
     }).subscribe({
       next: (response) => {
-        console.log('API Calls successful. Raw data received:');
-        console.log('Summary Response:', response.summary);
-        console.log('Gateways Response:', response.gateways);
-
         this.totalDevices = response.summary.total_devices;
         this.connectedDevices = response.summary.active_devices;
         this.disconnectedDevices = this.totalDevices - this.connectedDevices;
-
         this.gatewaysWithDeviceCounts = response.gateways.response;
         this.totalGateways = this.gatewaysWithDeviceCounts.length;
 
+        // This is the key fix: We set isLoading to false, which makes the chart
+        // containers visible, and then we immediately render the charts.
+        this.isLoading = false;
+        
+        // This setTimeout is a final safeguard to give the DOM one last moment to update.
+        // It should not be necessary but will ensure the charts appear.
         setTimeout(() => {
           this.renderDeviceChart();
           this.renderGatewayChart();
-        }, 0);
-
-        this.isLoading = false;
+        }, 10);
       },
       error: (error) => {
         console.error('An unexpected error occurred during data fetching:', error);
@@ -84,6 +81,7 @@ export class DashboardComponent implements OnInit {
   renderDeviceChart(): void {
     const ctx = document.getElementById('deviceStatusPieChart') as HTMLCanvasElement;
     if (ctx) {
+      console.log("Canvas element 'deviceStatusPieChart' found. Rendering chart...");
       if (this.deviceStatusChart) {
         this.deviceStatusChart.destroy();
       }
@@ -124,6 +122,7 @@ export class DashboardComponent implements OnInit {
   renderGatewayChart(): void {
     const ctx = document.getElementById('gatewayDevicesBarChart') as HTMLCanvasElement;
     if (ctx && this.gatewaysWithDeviceCounts && this.gatewaysWithDeviceCounts.length > 0) {
+      console.log("Canvas element 'gatewayDevicesBarChart' found. Rendering chart...");
       if (this.gatewayDevicesChart) {
         this.gatewayDevicesChart.destroy();
       }
@@ -150,7 +149,6 @@ export class DashboardComponent implements OnInit {
         data: {
           labels: gatewayNames,
           datasets: [
-            // Reordering the datasets to draw the 'Connected' bar on top
             {
               label: 'Disconnected',
               data: disconnectedDeviceCounts,
