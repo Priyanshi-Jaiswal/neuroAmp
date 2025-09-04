@@ -7,18 +7,18 @@
         </li>
         <li class="user" [ngClass]="{ 'active': selectedMenu === '/devices' }" >
             <div class="label" (click)="devices()">
-                <mat-icon class="icons">device_hub</mat-icon> Devices
+                <mat-icon class="icons">developer_board</mat-icon> Devices
             </div>
         </li>
         <li class="user" [ngClass]="{ 'active': selectedMenu === '/gateways' }" >            
             <div class="label" (click)="gateways()">
-                <mat-icon class="icons">developer_board</mat-icon> Gateways
+                <mat-icon class="icons">device_hub</mat-icon> Gateways
             </div>
         </li>
 
         <li class="user" [ngClass]="{ 'active': selectedMenu === '/gatewayBridge' }">
             <div class="label" (click)="gatewayBridge()">
-                <mat-icon class="icons">memory</mat-icon> Gateway Bridge
+                <mat-icon class="icons">blur_linear</mat-icon> Gateway Bridge
             </div>
         </li>    
     </ul>
@@ -32,18 +32,18 @@
         </li>
         <li class="user" [ngClass]="{ 'active': selectedMenu === '/devices' }" >
             <div class="label" (click)="devices()"  matTooltip="Devices">
-                <mat-icon class="icons">device_hub</mat-icon>
+                <mat-icon class="icons">developer_board</mat-icon>
             </div>
         </li>
         <li class="user" [ngClass]="{ 'active': selectedMenu === '/gateways' }" >            
             <div class="label" (click)="gateways()"  matTooltip="Gateways">
-                <mat-icon class="icons">developer_board</mat-icon>
+                <mat-icon class="icons">device_hub</mat-icon>
             </div>
         </li>
 
         <li class="user" [ngClass]="{ 'active': selectedMenu === '/gatewayBridge' }">
             <div class="label" (click)="gatewayBridge()"  matTooltip="Gateway Bridge">
-                <mat-icon class="icons">memory</mat-icon>
+                <mat-icon class="icons">blur_linear</mat-icon>
             </div>
         </li>
     </ul>

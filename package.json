@@ -27,6 +27,8 @@
     "ag-grid-community": "^31.3.2",
     "apexcharts": "^3.52.0",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.5.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "datetime-picker": "^0.6.0",
     "file-saver": "^2.0.5",
     "jspdf": "^2.5.1",
