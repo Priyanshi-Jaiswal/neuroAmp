@@ -89,6 +89,9 @@ export class DashboardComponent implements OnInit {
         type: 'pie',
         data: {
           labels: ['Connected', 'Disconnected'],
+ /* font: {
+                 size: 12
+                },*/
           datasets: [{
             data: [this.connectedDevices, this.disconnectedDevices],
             backgroundColor: ['#5cb85c', '#d9534f'],
@@ -172,23 +175,25 @@ export class DashboardComponent implements OnInit {
               align: 'center',
               labels: {
                 usePointStyle: true,
+                //padding: { top: 0, bottom: 0, left: 15, right: 25 },
+                //boxWidth: 15,
               }
             }
           },
           scales: {
             x: {
-              title: {
+              /*title: {
                 display: true,
                 text: 'Gateways',
                 color: '#000',
                 font: {
-                  size: 16
+                  size: 8
                 }
-              },
+              },*/
               ticks: {
-                color: '#000',
+                //color: '#000',
                 font: {
-                  size: 16
+                  size: 12
                 }
               },
               grid: {
@@ -200,16 +205,16 @@ export class DashboardComponent implements OnInit {
             y: {
               title: {
                 display: true,
-                text: 'Number of Devices',
-                color: '#000',
+                text: '#Devices',
+                //color: '#000',
                 font: {
-                  size: 16
+                  size: 12
                 }
               },
               ticks: {
-                color: '#000',
+                //color: '#000',
                 font: {
-                  size: 16
+                  size: 10
                 },
                 callback: function(value) {
                   return Number.isInteger(value) ? value : null;

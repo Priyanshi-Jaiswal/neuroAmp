@@ -33,9 +33,12 @@ $card-border-color: #F0F0F0;
 }
 
 .add-device-title-custom.card-title {
-    font-weight: 500; 
+    // font-weight: 500; 
     color: $dark-blue-text; 
-    padding-left: 1rem;
+    // padding-left: 1rem;
+    margin: 0;
+    // margin-left: 3px;
+    font-size: 1.25rem;
 }
 
 .general-settings-card {

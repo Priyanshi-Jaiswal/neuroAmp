@@ -11,31 +11,22 @@ import { forkJoin, take } from 'rxjs';
 })
 export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
   deviceId: string | null = null;
-  gatewayOptions: any[] = []; // Added to store the list of gateways
-
-  // Form fields for the new device
+  gatewayOptions: any[] = [];
   active: boolean = false;
   name: string = '';
   devEUI: string = '';
   region: string = '';
   gateway: string = '';
-  selectedGatewayId: string | null = null; // New property to hold the selected gateway ID
-
-  // Example options for the region dropdown
+  selectedGatewayId: string | null = null;
   regionOptions: string[] = ['US915', 'EU868', 'AS923', 'AU915'];
-
-  // Activation Settings form fields
   otaaSupported: boolean = false;
   appKey: string = '';
   devAddr: string = '';
   nwkSKey: string = '';
   appSKey: string = '';
-
-  // Visibility toggles for sensitive keys
   showAppKey: boolean = false;
   showNwkSKey: boolean = false;
   showAppSKey: boolean = false;
-  // Class A Settings form fields
   rx1Delay: string = '';
   rx1Duration: string = '';
   rx1DataRateOffset: string = '';
@@ -44,46 +35,42 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
   channelFrequency: string = '';
   dataRate: string = '';
   ackTimeout: string = '';
-  // Class B Settings field
   classBSupported: boolean = false;
-
-  // Class C Settings field
   classCSupported: boolean = false;
-
-  // Frame Settings form fields
   uplinkDataRate: string = '';
   fPort: string = '';
   retransmission: string = '';
   fCnt: string = '';
   fCntDownDisable: boolean = false;
   fCntDown: number | undefined;
-
-  // Features Settings field
   adrEnabled: boolean = false;
   rangeAntenna: string = '';
-
-  // Payload Settings form fields
   uplinkInterval: string = '';
   payloadExceedsAction: 'fragments' | 'truncates' = 'fragments';
   mType: 'ConfirmedDataUp' | 'UnConfirmedDataUp' = 'ConfirmedDataUp';
   payloadContent: string = '';
   base64Encoded: boolean = false;
-
-  // Location Settings
   latitude: number = 6.195;
   longitude: number = 1.0;
   altitude: number | undefined;
-  locationAddress: string = 'Device Location'; // New property for the address
+  locationAddress: string = 'Device Location';
   searchAddress: string = '';
   showSearchBox: boolean = false;
-
   private map: L.Map | undefined;
   private marker: L.Marker | undefined;
-
-  // Current active tab in the Device's Settings sidebar
   activeSettingTab: string = 'General';
+  tabOrder: string[] = [
+    'General',
+    'Activation',
+    'Class A',
+    'Class B',
+    'Class C',
+    'Frame settings',
+    'Features',
+    'Location',
+    'Payload',
+  ];
 
-  // Injected services
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -91,7 +78,6 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Initialize any data or perform setup here
     this.appService.getGateways().subscribe({
       next: (response) => {
         this.gatewayOptions = response.response;
@@ -110,9 +96,7 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngAfterViewInit(): void {
-    // Map initialization is handled conditionally inside setActiveTab
-  }
+  ngAfterViewInit(): void {}
 
   ngOnDestroy(): void {
     if (this.map) {
@@ -121,10 +105,6 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /**
-   * Fetches the gateways and the device data concurrently.
-   * @param devEUI The ID of the device to load.
-   */
   loadGatewaysAndDeviceData(devEUI: string): void {
     forkJoin({
       device: this.appService.getSingleDevice(devEUI),
@@ -132,9 +112,7 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe({
         next: (results) => {
-          //this.gatewayData = results.gatewayOptions.response;
           const deviceData = results.device.response;
-          console.log('Fetched device data:', deviceData);
           this.populateFormWithData(deviceData);
         },
         error: (error) => {
@@ -148,21 +126,17 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private populateFormWithData(deviceData: any): void {
-    // Populate general settings
     this.active = deviceData.isDeviceActive || false;
     this.name = deviceData.name || '';
     this.devEUI = deviceData.devEUI || '';
     this.region = deviceData.region || '';
     this.gateway = deviceData.gateway || '';
-    console.log("Anurag====", deviceData.gateway)
-
-    // ... all other properties remain the same
+    console.log("Anurag====", deviceData.gateway);
     this.otaaSupported = deviceData.otaaSupported || false;
     this.appKey = deviceData.appKey || '';
     this.devAddr = deviceData.devAddr || '';
     this.nwkSKey = deviceData.nwkSKey || '';
     this.appSKey = deviceData.appSKey || '';
-
     this.rx1Delay = deviceData.rx1Delay || '';
     this.rx1Duration = deviceData.rx1Duration || '';
     this.rx1DataRateOffset = deviceData.rx1DataRateOffset || '';
@@ -171,35 +145,28 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.channelFrequency = deviceData.channelFrequency || '';
     this.dataRate = deviceData.dataRate || '';
     this.ackTimeout = deviceData.ackTimeout || '';
-
     this.classBSupported = deviceData.classBSupported || false;
     this.classCSupported = deviceData.classCSupported || false;
-
     this.uplinkDataRate = deviceData.uplinkDataRate || '';
     this.fPort = deviceData.fPort || '';
     this.retransmission = deviceData.retransmission || '';
     this.fCnt = deviceData.fCnt || '';
     this.fCntDownDisable = deviceData.fCntDownDisable || false;
     this.fCntDown = deviceData.fCntDown || undefined;
-
     this.adrEnabled = deviceData.adrEnabled || false;
     this.rangeAntenna = deviceData.rangeAntenna || '';
-
     this.uplinkInterval = deviceData.uplinkInterval || '';
     this.payloadExceedsAction = deviceData.payloadExceedsAction || 'fragments';
     this.mType = deviceData.mType || 'ConfirmedDataUp';
     this.payloadContent = deviceData.payloadContent || '';
     this.base64Encoded = deviceData.base64Encoded || false;
-
     this.latitude = deviceData.location?.latitude || 6.195;
     this.longitude = deviceData.location?.longitude || 1.0;
     this.altitude = deviceData.location?.altitude || undefined;
-
     if (this.activeSettingTab === 'Location') {
       setTimeout(() => {
         if (!this.map) {
           this.initMap();
-          // Call reverse geocode after the map is initialized with loaded data
           this.reverseGeocode(this.latitude, this.longitude);
         }
       }, 100);
@@ -213,7 +180,7 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
       setTimeout(() => {
         if (!this.map) {
           this.initMap();
-          this.reverseGeocode(this.latitude, this.longitude); // Call reverse geocode after map init
+          this.reverseGeocode(this.latitude, this.longitude);
         } else {
           this.map.invalidateSize();
         }
@@ -246,7 +213,7 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     L.Marker.prototype.options.icon = defaultIcon;
     this.marker = L.marker([this.latitude, this.longitude])
       .addTo(this.map)
-      .bindPopup(this.locationAddress) // Use the locationAddress property
+      .bindPopup(this.locationAddress)
       .openPopup();
     this.map.on('click', (e: L.LeafletMouseEvent) => {
       this.latitude = parseFloat(e.latlng.lat.toFixed(6));
@@ -256,7 +223,6 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.map.invalidateSize();
   }
 
-  // New method for reverse geocoding
   private async reverseGeocode(lat: number, lng: number): Promise<void> {
     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
     try {
@@ -287,7 +253,7 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
       const newLatLng = new L.LatLng(this.latitude, this.longitude);
       if (this.marker) {
         this.marker.setLatLng(newLatLng);
-        this.marker.setPopupContent(this.locationAddress); // Update popup content
+        this.marker.setPopupContent(this.locationAddress);
       } else {
         this.marker = L.marker(newLatLng).addTo(this.map);
         this.marker.bindPopup(this.locationAddress).openPopup();
@@ -297,7 +263,7 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
       this.map.removeLayer(this.marker);
       this.marker = undefined;
     }
-    this.reverseGeocode(this.latitude, this.longitude); // Call reverse geocode
+    this.reverseGeocode(this.latitude, this.longitude);
   }
 
   onLatLngChange(): void {
@@ -367,23 +333,13 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showAppSKey = !this.showAppSKey;
   }
 
-  /**
-   * Updates the device data using the updateDevice API.
-   */
-  updateDevice(): void {
-    if (!this.devEUI) {
-      alert('Error: Device ID is missing for update.');
-      return;
-    }
-
-    const updatedDeviceData = {
-      // General Settings
+  private getUpdatedDeviceData(): any {
+    return {
       isDeviceActive: this.active,
       name: this.name,
       devEUI: this.devEUI,
       region: this.region,
-      gateway: this.gateway, // Added new gateway ID
-      // ... all other properties remain the same
+      gateway: this.gateway,
       otaaSupported: this.otaaSupported,
       appKey: this.appKey,
       devAddr: this.devAddr,
@@ -418,7 +374,49 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
         altitude: this.altitude,
       },
     };
-    console.log('Attempting to update device:', updatedDeviceData);
+  }
+
+  /**
+   * Updates device data and navigates to the next tab on success.
+   */
+  updateAndNext(): void {
+    if (!this.devEUI) {
+      alert('Error: Device ID is missing for update.');
+      return;
+    }
+    const updatedDeviceData = this.getUpdatedDeviceData();
+    console.log('Attempting to update device and go to next tab:', updatedDeviceData);
+
+    this.appService.updateDevice(this.devEUI, updatedDeviceData).subscribe({
+      next: (response) => {
+        console.log('Device updated successfully!', response);
+        // alert('Device updated successfully!');
+        const currentIndex = this.tabOrder.indexOf(this.activeSettingTab);
+        if (currentIndex !== -1 && currentIndex < this.tabOrder.length - 1) {
+          const nextTab = this.tabOrder[currentIndex + 1];
+          this.setActiveTab(nextTab);
+        } else {
+          // Fallback to close if on the last tab
+          this.router.navigate(['/devices']);
+        }
+      },
+      error: (error) => {
+        console.error('Error updating device:', error);
+        alert('Failed to update device. Check console for details.');
+      },
+    });
+  }
+
+  /**
+   * Updates device data and navigates to the devices list on success.
+   */
+  updateAndClose(): void {
+    if (!this.devEUI) {
+      alert('Error: Device ID is missing for update.');
+      return;
+    }
+    const updatedDeviceData = this.getUpdatedDeviceData();
+    console.log('Attempting to update device and close:', updatedDeviceData);
 
     this.appService.updateDevice(this.devEUI, updatedDeviceData).subscribe({
       next: (response) => {

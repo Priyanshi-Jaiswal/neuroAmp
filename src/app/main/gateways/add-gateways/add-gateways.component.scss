@@ -19,10 +19,13 @@ $card-border-color: #F0F0F0;
   margin-bottom: 1.5rem;
   // background-color: rgba(231, 231, 231, 0.95);
 
-  h5 {
-    font-weight: 500; /* Semi-bold */
+  h6 {
+    // font-weight: 500; /* Semi-bold */
     color: $dark-blue-text; /* Dark grey text */
     // padding-left: 1rem;
+    margin: 0;
+    // margin-left: 5px;
+    font-size: 1.25rem;
   }
 }
 

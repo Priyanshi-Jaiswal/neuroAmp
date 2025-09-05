@@ -35,11 +35,12 @@ $card-border-color: #F0F0F0;
 
 /* Custom styling for the main title within the header */
 .add-device-title-custom.card-title {
-    // font-size: 1.75rem; /* Larger font size for prominence */
-    font-weight: 500; /* Semi-bold */
     color: $dark-blue-text; /* Dark grey text */
     padding-left: 1rem;
-    // margin-bottom: 0; /* Remove default h2 bottom margin */
+    padding-bottom: 0.5rem;
+    margin: 0;
+    // margin-left: 3px;
+    font-size: 1.25rem;
 }
 
 /* Custom styling for the card body (main content area) */
@@ -248,6 +249,10 @@ $card-border-color: #F0F0F0;
     }
 }
 
+.input-custom.form-control.dropdown-input {
+    min-width: 41rem;
+}
+
 /* Custom styling for form labels */
 .label-custom.form-label {
     font-size: 1rem;
@@ -316,6 +321,7 @@ $card-border-color: #F0F0F0;
     margin-top: 0;
     padding: 1.5rem 2.5rem;
     border-top: 1px solid $card-border-color;
+    gap: 1rem;
 }
 
 /* Custom styling for the Save button */

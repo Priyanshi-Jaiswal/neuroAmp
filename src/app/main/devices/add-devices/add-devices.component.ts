@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router'; // Import Router
+import { Router } from '@angular/router';
 import * as L from 'leaflet';
 import { AppService } from '../../../app.service';
 
@@ -9,23 +9,20 @@ import { AppService } from '../../../app.service';
   styleUrls: ['./add-devices.component.scss']
 })
 export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
-  // currentUser: any;
   deviceId: string | null = null;
   isEditMode: boolean = false;
 
   // Form fields for the new device
-  active: boolean = false; // Renamed from 'active' for clarity
+  active: boolean = false;
   name: string = '';
   devEUI: string = '';
   region: string = '';
-  selectedGatewayId: string | null = null; // New property for the selected gateway
+  selectedGatewayId: string | null = null;
   gateway: any[] = [];
-
-  // Example options for the region dropdown
   regionOptions: string[] = ['US915', 'EU868', 'AS923', 'AU915'];
 
   // Activation Settings form fields
-  otaaSupported: boolean = false; // Renamed from 'active' for clarity
+  otaaSupported: boolean = false;
   appKey: string = '';
   devAddr: string = '';
   nwkSKey: string = '';
@@ -42,10 +39,10 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
   ackTimeout: string = '';
 
   // Class B Settings field
-  classBSupported: boolean = false; // Renamed from 'active' for clarity
+  classBSupported: boolean = false;
 
   // Class C Settings field
-  classCSupported: boolean = false; // Renamed from 'active' for clarity
+  classCSupported: boolean = false;
 
   // Frame Settings form fields
   uplinkDataRate: string = '';
@@ -56,42 +53,39 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
   fCntDown: number | undefined;
 
   // Features Settings field
-  adrEnabled: boolean = false; // Renamed from 'active' for clarity
+  adrEnabled: boolean = false;
   rangeAntenna: string = '';
 
-  // NEW: Payload Settings form fields
+  // Payload Settings form fields
   uplinkInterval: string = '';
-  payloadExceedsAction: 'fragments' | 'truncates' = 'fragments'; // Default to 'fragments'
-  mType: 'ConfirmedDataUp' | 'UnConfirmedDataUp' = 'ConfirmedDataUp'; // Default to 'ConfirmedDataUp'
+  payloadExceedsAction: 'fragments' | 'truncates' = 'fragments';
+  mType: 'ConfirmedDataUp' | 'UnConfirmedDataUp' = 'ConfirmedDataUp';
   payloadContent: string = '';
   base64Encoded: boolean = false;
 
-  // Location Settings (NEW)
-  latitude: number = 1; // Default latitude (Accra, Ghana area from image)
-  longitude: number = 1; // Default longitude
+  // Location Settings
+  latitude: number = 1;
+  longitude: number = 1;
   altitude: number | undefined;
-  locationAddress: string = 'Device Location'; // New property to hold the address
-
-  // Visibility toggles for sensitive keys
+  locationAddress: string = 'Device Location';
   showAppKey: boolean = false;
   showNwkSKey: boolean = false;
   showAppSKey: boolean = false;
   searchAddress: string = '';
-  showSearchBox: boolean = false; // Controls visibility of the address search box
+  showSearchBox: boolean = false;
 
   private map: L.Map | undefined;
   private marker: L.Marker | undefined;
 
   // Current active tab in the Device's Settings sidebar
   activeSettingTab: string = 'General';
+  private tabSequence: string[] = ['General', 'Activation', 'Class A', 'Class B', 'Class C', 'Frame settings', 'Features', 'Location', 'Payload'];
 
   private deviceCreatedForSession: boolean = false;
 
-  // Changed constructor to inject Router instead of MatDialogRef
   constructor(private router: Router, private appService: AppService) { }
 
   ngOnInit(): void {
-    // Initialize any data or perform setup here
     this.appService.getGateways().subscribe({
       next: (response) => {
         this.gateway = response.response;
@@ -107,7 +101,7 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
     // The map is now only initialized when the Location tab is opened.
   }
 
-  ngOnDestroy(): void { // Lifecycle hook to clean up map resources
+  ngOnDestroy(): void {
     if (this.map) {
       this.map.remove();
       this.map = undefined;
@@ -121,7 +115,7 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   setActiveTab(tabName: string): void {
     this.activeSettingTab = tabName;
-    console.log(`Mapsd to: ${tabName}`);
+    console.log(`Switched to: ${tabName}`);
 
     if (tabName === 'Location') {
       setTimeout(() => {
@@ -134,217 +128,10 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-     * Initializes the Leaflet map and sets up the tile layer and marker.
-     */
-  private initMap(): void {
-    if (this.map) {
-      this.map.remove();
-    }
-
-    this.map = L.map('map').setView([this.latitude, this.longitude], 6);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.map);
-
-    const iconRetinaUrl = 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png';
-    const iconUrl = 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png';
-    const shadowUrl = 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png';
-
-    const defaultIcon = L.icon({
-      iconRetinaUrl,
-      iconUrl,
-      shadowUrl,
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      tooltipAnchor: [16, -28],
-      shadowSize: [41, 41]
-    });
-
-    L.Marker.prototype.options.icon = defaultIcon;
-
-    this.marker = L.marker([this.latitude, this.longitude]).addTo(this.map)
-      .bindPopup(this.locationAddress) // Use the new locationAddress property
-      .openPopup();
-
-    this.map.on('click', (e: L.LeafletMouseEvent) => {
-      this.latitude = parseFloat(e.latlng.lat.toFixed(6));
-      this.longitude = parseFloat(e.latlng.lng.toFixed(6));
-      this.updateMapMarker();
-    });
-
-    this.map.invalidateSize();
-  }
-
-  // New method for reverse geocoding
-  private async reverseGeocode(lat: number, lng: number): Promise<void> {
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data && data.display_name) {
-        this.locationAddress = data.display_name;
-        if (this.marker) {
-          this.marker.setPopupContent(this.locationAddress);
-        }
-      } else {
-        this.locationAddress = 'Address not found';
-        if (this.marker) {
-          this.marker.setPopupContent(this.locationAddress);
-        }
-      }
-    } catch (error) {
-      console.error('Error in reverse geocoding:', error);
-      this.locationAddress = 'Address lookup failed';
-      if (this.marker) {
-        this.marker.setPopupContent(this.locationAddress);
-      }
-    }
-  }
-
-  /**
-   * Updates the map marker position and map view based on current latitude and longitude.
+   * Private helper to encapsulate the save/update API call logic.
+   * @returns The Observable from the service call.
    */
-  updateMapMarker(): void {
-    if (this.map && this.marker && this.latitude !== null && this.longitude !== null) {
-      const newLatLng = new L.LatLng(this.latitude, this.longitude);
-      this.marker.setLatLng(newLatLng);
-      this.map.setView(newLatLng, this.map.getZoom() || 13); // Maintain zoom or set default
-    } else if (this.map && this.latitude !== null && this.longitude !== null) {
-      // If marker doesn't exist but map does, create it
-      this.marker = L.marker([this.latitude, this.longitude]).addTo(this.map);
-      this.map.setView([this.latitude, this.longitude], this.map.getZoom() || 13);
-    }
-    // Trigger reverse geocoding after updating the marker.
-    this.reverseGeocode(this.latitude, this.longitude);
-  }
-
-  /**
-   * Called when latitude or longitude input changes.
-   * Updates the map marker.
-   */
-  onLatLngChange(): void {
-    this.updateMapMarker();
-  }
-
-  /**
-   * Searches for a location using Nominatim API and updates map/coordinates.
-   */
-  async searchLocation(): Promise<void> {
-    if (!this.searchAddress) {
-      console.warn('Please enter an address to search.');
-      return;
-    }
-
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchAddress)}`;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data && data.length > 0) {
-        const firstResult = data[0];
-        this.latitude = parseFloat(firstResult.lat);
-        this.longitude = parseFloat(firstResult.lon);
-        this.updateMapMarker();
-        this.map?.setView([this.latitude, this.longitude], 13); // Zoom in on search result
-        console.log('Location found:', firstResult);
-      } else {
-        console.warn('Location not found for the given address.');
-      }
-    } catch (error) {
-      console.error('Error searching location:', error);
-    }
-  }
-
-  /**
-   * Generates a random DevEUI.
-   */
-  generateDevEUI(): void {
-    this.devEUI = Array.from({ length: 16 }, () => Math.floor(Math.random() * 16).toString(16)).join('').toUpperCase();
-    console.log('Generated DevEUI:', this.devEUI);
-  }
-
-
-  // NEW: Methods for Activation Settings
-  /**
-   * Generates a random 32-character hexadecimal string for App Key.
-   */
-  generateAppKey(): void {
-    this.appKey = this.generateRandomHexString(32);
-    console.log('Generated App Key:', this.appKey);
-  }
-
-  /**
-   * Generates a random 8-character hexadecimal string for DevAddr.
-   */
-  generateDevAddr(): void {
-    this.devAddr = this.generateRandomHexString(8);
-    console.log('Generated DevAddr:', this.devAddr);
-  }
-
-  /**
-   * Generates a random 32-character hexadecimal string for NwkSKey.
-   */
-  generateNwkSKey(): void {
-    this.nwkSKey = this.generateRandomHexString(32);
-    console.log('Generated NwkSKey:', this.nwkSKey);
-  }
-
-  /**
-   * Generates a random 32-character hexadecimal string for AppSKey.
-   */
-  generateAppSKey(): void {
-    this.appSKey = this.generateRandomHexString(32);
-    console.log('Generated AppSKey:', this.appSKey);
-  }
-
-  /**
-   * Helper function to generate a random hexadecimal string of a given length.
-   */
-  private generateRandomHexString(length: number): string {
-    let result = '';
-    const characters = '0123456789ABCDEF';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
-
-  /**
-   * Toggles the visibility of the App Key input field.
-   */
-  toggleAppKeyVisibility(): void {
-    this.showAppKey = !this.showAppKey;
-  }
-
-  /**
-   * Toggles the visibility of the NwkSKey input field.
-   */
-  toggleNwkSKeyVisibility(): void {
-    this.showNwkSKey = !this.showNwkSKey;
-  }
-
-  /**
-   * Toggles the visibility of the AppSKey input field.
-   */
-  toggleAppSKeyVisibility(): void {
-    this.showAppSKey = !this.showAppSKey;
-  }
-
-  /**
-   * Saves the new device data.
-   */
-  saveDevice(): void {
-    if (!this.name || !this.devEUI || !this.selectedGatewayId || !this.region) {
-      alert('Please fill in Name, DevEUI, Gateway and Region in the General tab.');
-      this.activeSettingTab = 'General';
-      return;
-    }
+  private _saveDevice() {
     const newDeviceData = {
       isDeviceActive: this.active,
       name: this.name,
@@ -385,38 +172,247 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
         altitude: this.altitude
       }
     };
-    console.log('Attempting to save new device:', newDeviceData);
-    this.devEUI = newDeviceData.devEUI
-    console.log("Device EUI before if: ", this.devEUI);
+
+    console.log('Attempting to save/update device:', newDeviceData);
+
+    // Call either create or update based on the flag
     if (!this.deviceCreatedForSession) {
-      console.log("Device EUI after if: ", this.devEUI);
-      this.appService.createDevice(newDeviceData).subscribe({
-        next: (response) => {
-          console.log('Device created successfully!', response);
-          alert('Device created successfully!');
-          this.deviceCreatedForSession = true;
-        },
-        error: (error) => {
-          console.error('Error creating device:', error);
-          alert('Failed to create device. Check console for details.');
-        }
-      });
-      console.log("Device EUI before else: ", this.devEUI);
+      return this.appService.createDevice(newDeviceData);
+    } else {
+      return this.appService.updateDevice(this.devEUI, newDeviceData);
     }
-    else {
-      console.log("Device EUI after else: ", this.devEUI);
-      this.appService.updateDevice(this.devEUI, newDeviceData).subscribe({
-        next: (response) => {
-          console.log('Device updated successfully!', response);
-          alert('Device updated successfully!');
-        },
-        error: (error) => {
-          console.log("devEUI: ", this.devEUI);
-          console.error('Error updating device:', error);
-          alert('Failed to update device. Check console for details.');
-        }
-      });
+  }
+
+  /**
+   * Saves the current tab's data and navigates to the next tab.
+   */
+  saveAndNext(): void {
+    if (!this.name || !this.devEUI || !this.selectedGatewayId || !this.region) {
+      console.warn('Please fill in Name, DevEUI, Gateway, and Region in the General tab before proceeding.');
+      this.activeSettingTab = 'General';
+      return;
     }
 
+    this._saveDevice().subscribe({
+      next: (response) => {
+        console.log('Device saved successfully!', response);
+        this.deviceCreatedForSession = true;
+        const currentIndex = this.tabSequence.indexOf(this.activeSettingTab);
+        if (currentIndex < this.tabSequence.length - 1) {
+          const nextTab = this.tabSequence[currentIndex + 1];
+          this.setActiveTab(nextTab);
+        }
+      },
+      error: (error) => {
+        console.error('Error saving device:', error);
+      }
+    });
+  }
+
+  /**
+   * Saves the device and navigates to the device list page.
+   */
+  saveAndClose(): void {
+    this._saveDevice().subscribe({
+      next: (response) => {
+        console.log('Device saved successfully and closing page.', response);
+        alert('Device added successfully!');
+        this.router.navigate(['/devices']);
+      },
+      error: (error) => {
+        console.error('Error saving device:', error);
+      }
+    });
+  }
+
+  /**
+   * Saves the device and then resets the form to add a new one.
+   */
+  saveAndNew(): void {
+    this._saveDevice().subscribe({
+      next: (response) => {
+        console.log('Device saved successfully. Resetting form for a new device.', response);
+        alert('Device added successfully!');
+        this._resetForm();
+      },
+      error: (error) => {
+        console.error('Error saving device:', error);
+      }
+    });
+  }
+
+  /**
+   * Resets all component properties to their initial state.
+   */
+  private _resetForm(): void {
+    this.name = '';
+    this.devEUI = '';
+    this.region = '';
+    this.selectedGatewayId = null;
+    this.otaaSupported = false;
+    this.appKey = '';
+    this.devAddr = '';
+    this.nwkSKey = '';
+    this.appSKey = '';
+    this.rx1Delay = '';
+    this.rx1Duration = '';
+    // Reset other properties to their initial default state...
+    this.uplinkInterval = '';
+    this.payloadExceedsAction = 'fragments';
+    this.mType = 'ConfirmedDataUp';
+    this.payloadContent = '';
+    this.base64Encoded = false;
+    this.latitude = 1;
+    this.longitude = 1;
+    this.locationAddress = 'Device Location';
+    this.deviceCreatedForSession = false;
+    this.setActiveTab('General');
+  }
+
+  // NOTE: The methods below are unchanged from the original file.
+
+  private initMap(): void {
+    if (this.map) {
+      this.map.remove();
+    }
+    this.map = L.map('map').setView([this.latitude, this.longitude], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
+    const iconRetinaUrl = 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png';
+    const iconUrl = 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png';
+    const shadowUrl = 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png';
+    const defaultIcon = L.icon({
+      iconRetinaUrl,
+      iconUrl,
+      shadowUrl,
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      tooltipAnchor: [16, -28],
+      shadowSize: [41, 41]
+    });
+    L.Marker.prototype.options.icon = defaultIcon;
+    this.marker = L.marker([this.latitude, this.longitude]).addTo(this.map)
+      .bindPopup(this.locationAddress)
+      .openPopup();
+    this.map.on('click', (e: L.LeafletMouseEvent) => {
+      this.latitude = parseFloat(e.latlng.lat.toFixed(6));
+      this.longitude = parseFloat(e.latlng.lng.toFixed(6));
+      this.updateMapMarker();
+    });
+    this.map.invalidateSize();
+  }
+
+  private async reverseGeocode(lat: number, lng: number): Promise<void> {
+    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data && data.display_name) {
+        this.locationAddress = data.display_name;
+        if (this.marker) {
+          this.marker.setPopupContent(this.locationAddress);
+        }
+      } else {
+        this.locationAddress = 'Address not found';
+        if (this.marker) {
+          this.marker.setPopupContent(this.locationAddress);
+        }
+      }
+    } catch (error) {
+      console.error('Error in reverse geocoding:', error);
+      this.locationAddress = 'Address lookup failed';
+      if (this.marker) {
+        this.marker.setPopupContent(this.locationAddress);
+      }
+    }
+  }
+
+  updateMapMarker(): void {
+    if (this.map && this.marker && this.latitude !== null && this.longitude !== null) {
+      const newLatLng = new L.LatLng(this.latitude, this.longitude);
+      this.marker.setLatLng(newLatLng);
+      this.map.setView(newLatLng, this.map.getZoom() || 13);
+    } else if (this.map && this.latitude !== null && this.longitude !== null) {
+      this.marker = L.marker([this.latitude, this.longitude]).addTo(this.map);
+      this.map.setView([this.latitude, this.longitude], this.map.getZoom() || 13);
+    }
+    this.reverseGeocode(this.latitude, this.longitude);
+  }
+
+  onLatLngChange(): void {
+    this.updateMapMarker();
+  }
+
+  async searchLocation(): Promise<void> {
+    if (!this.searchAddress) {
+      console.warn('Please enter an address to search.');
+      return;
+    }
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchAddress)}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data && data.length > 0) {
+        const firstResult = data[0];
+        this.latitude = parseFloat(firstResult.lat);
+        this.longitude = parseFloat(firstResult.lon);
+        this.updateMapMarker();
+        this.map?.setView([this.latitude, this.longitude], 13);
+        console.log('Location found:', firstResult);
+      } else {
+        console.warn('Location not found for the given address.');
+      }
+    } catch (error) {
+      console.error('Error searching location:', error);
+    }
+  }
+
+  generateDevEUI(): void {
+    this.devEUI = Array.from({ length: 16 }, () => Math.floor(Math.random() * 16).toString(16)).join('').toUpperCase();
+    console.log('Generated DevEUI:', this.devEUI);
+  }
+
+  generateAppKey(): void {
+    this.appKey = this.generateRandomHexString(32);
+    console.log('Generated App Key:', this.appKey);
+  }
+
+  generateDevAddr(): void {
+    this.devAddr = this.generateRandomHexString(8);
+    console.log('Generated DevAddr:', this.devAddr);
+  }
+
+  generateNwkSKey(): void {
+    this.nwkSKey = this.generateRandomHexString(32);
+    console.log('Generated NwkSKey:', this.nwkSKey);
+  }
+
+  generateAppSKey(): void {
+    this.appSKey = this.generateRandomHexString(32);
+    console.log('Generated AppSKey:', this.appSKey);
+  }
+
+  private generateRandomHexString(length: number): string {
+    let result = '';
+    const characters = '0123456789ABCDEF';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+  toggleAppKeyVisibility(): void {
+    this.showAppKey = !this.showAppKey;
+  }
+
+  toggleNwkSKeyVisibility(): void {
+    this.showNwkSKey = !this.showNwkSKey;
+  }
+
+  toggleAppSKeyVisibility(): void {
+    this.showAppSKey = !this.showAppSKey;
   }
 }

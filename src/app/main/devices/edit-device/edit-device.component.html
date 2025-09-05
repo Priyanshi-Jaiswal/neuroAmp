@@ -1,11 +1,12 @@
 <div class="add-device-page-container card">
     <div class="card-header add-device-header-custom">
-        <h5 class="card-title add-device-title-custom">Edit Device</h5>
+        <!-- <h6 class="card-title add-device-title-custom">Edit Device</h6> -->
+        <h6 class="card-title add-device-title-custom">Edit Device / {{ name }}</h6>
     </div>
 
     <div class="card-body add-device-body-custom row no-gutters">
         <div class="col-md-3 add-device-sidebar-custom pr-4 border-end">
-            <h3 class="sidebar-heading-custom">Device's Setting</h3>
+            <h6 class="sidebar-heading-custom">Device's Setting</h6>
             <nav class="nav-vertical-custom">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item tab-item-custom">
@@ -49,7 +50,7 @@
                     </li>
 
                     <li class="list-group-item tab-item-custom">
-                        <a (click)="setActiveTab('Frame\'s settings')"
+                        <a (click)="setActiveTab('Frame settings')"
                             [ngClass]="{'active-tab-link-custom': activeSettingTab === 'Frame\'s settings'}"
                             class="list-group-item-action tab-link-custom">
                             Frame's settings
@@ -85,7 +86,7 @@
 
         <div class="col-md-9 form-content-area-custom pl-4 overflow-auto">
             <div *ngIf="activeSettingTab === 'General'" class="general-settings-card">
-                <h3 class="general-settings-heading">General Settings</h3>
+                <h6 class="general-settings-heading">General Settings</h6>
                 <form class="nav-form">
                     <div class="form-group form-check checkbox-group-custom">
                         <input type="checkbox" class="form-check-input checkbox-input-custom" id="active" name="active"
@@ -100,24 +101,14 @@
                         <label for="devEUI" class="form-label label-custom">DevEUI</label>
                         <div class="input-group">
                             <input type="text" class="form-control input-custom dev-eui-input-custom" id="devEUI"
-                                name="devEUI" [(ngModel)]="devEUI" readonly style="min-width: 36rem;">
-                            <button class="btn btn-outline-secondary generate-btn-custom" type="button"
-                                (click)="generateDevEUI()">
-                                <!-- Lucide Rotate CW icon for generate -->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="lucide lucide-rotate-cw">
-                                    <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
-                                    <path d="M21 3v5h-5" />
-                                </svg>
-                            </button>
+                                name="devEUI" [(ngModel)]="devEUI" readonly>
                         </div>
                     </div>
 
                     <div class="form-group input-group-custom">
                         <label for="gateway" class="form-label label-custom">Gateway</label>
-                        <select id="gateway" [(ngModel)]="gateway" name="gateway" class="form-control input-custom">
-                            <option value="gateway" disabled selected>Select a gateway</option>
+                        <select id="gateway" [(ngModel)]="gateway" name="gateway" class="form-control input-custom dropdown-input">
+                            <option value="gateway" disabled selected>Select a Gateway</option>
                             <option *ngFor="let gw of gatewayOptions" [value]="gw.name">{{ gw.name }}
                             </option>
                         </select>
@@ -125,30 +116,33 @@
 
                     <div class="form-group input-group-custom">
                         <label for="region" class="form-label label-custom">Region</label>
-                        <select id="region" name="region" [(ngModel)]="region" class="form-control input-custom">
-                            <option value="" disabled selected></option> <!-- Empty option as per image -->
+                        <select id="region" name="region" [(ngModel)]="region" class="form-control input-custom dropdown-input">
+                            <option value="" disabled selected>Select a Region</option>
                             <option *ngFor="let opt of regionOptions" [value]="opt">{{ opt }}</option>
                         </select>
                     </div>
                 </form>
                 <div class="card-footer add-device-footer-custom">
-                    <button type="submit" class="save-btn-custom btn btn-primary" (click)="updateDevice()">
-                        Update
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndNext()">
+                        Update & Next
+                    </button>
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndClose()">
+                        Update & Close
                     </button>
                 </div>
             </div>
 
             <div *ngIf="activeSettingTab === 'Activation'" class="general-settings-card">
-                <h3 class="general-settings-heading">Activation Settings</h3>
+                <h6 class="general-settings-heading">Activation Settings</h6>
                 <form class="nav-form">
-                    <!-- Active Checkbox -->
+
                     <div class="form-group form-check checkbox-group-custom">
                         <input type="checkbox" class="form-check-input checkbox-input-custom" id="active" name="active"
                             [(ngModel)]="active">
                         <label class="form-check-label checkbox-label-custom" for="active">Otaa supported</label>
                     </div>
 
-                    <!-- App Key Input -->
+
                     <div class="form-group input-group-custom">
                         <label for="appKey" class="form-label label-custom">App Key</label>
                         <div class="input-group">
@@ -175,7 +169,6 @@
                         </div>
                     </div>
 
-                    <!-- DevAddr Input -->
                     <div class="form-group input-group-custom">
                         <label for="devAddr" class="form-label label-custom">DevAddr</label>
                         <div class="input-group">
@@ -193,7 +186,6 @@
                         </div>
                     </div>
 
-                    <!-- NwkSKey Input -->
                     <div class="form-group input-group-custom">
                         <label for="nwkSKey" class="form-label label-custom">NwkSKey</label>
                         <div class="input-group">
@@ -220,7 +212,6 @@
                         </div>
                     </div>
 
-                    <!-- AppSKey Input -->
                     <div class="form-group input-group-custom">
                         <label for="appSKey" class="form-label label-custom">AppSKey</label>
                         <div class="input-group">
@@ -248,14 +239,17 @@
                     </div>
                 </form>
                 <div class="card-footer add-device-footer-custom">
-                    <button type="submit" class="save-btn-custom btn btn-primary" (click)="updateDevice()">
-                        Update
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndNext()">
+                        Update & Next
+                    </button>
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndClose()">
+                        Update & Close
                     </button>
                 </div>
             </div>
 
             <div *ngIf="activeSettingTab === 'Class A'" class="general-settings-card">
-                <h3 class="general-settings-heading">Class A Settings</h3>
+                <h6 class="general-settings-heading">Class A Settings</h6>
                 <form class="nav-form">
                     <h4 class="sub-heading-custom">RX1's settings</h4>
 
@@ -275,7 +269,7 @@
                         <label for="rx1DataRateOffset" class="form-label label-custom classA-label">Data Rate
                             offset</label>
                         <select id="rx1DataRateOffset" name="rx1DataRateOffset" [(ngModel)]="rx1DataRateOffset"
-                            class="form-control input-custom">
+                            class="form-control input-custom dropdown-input">
                             <option value="" disabled selected></option>
                             <option value="0">0</option>
                             <option value="1">1</option>
@@ -307,7 +301,7 @@
 
                     <div class="form-group input-group-custom">
                         <label for="dataRate" class="form-label label-custom classA-label">Data Rate</label>
-                        <select id="dataRate" name="dataRate" [(ngModel)]="dataRate" class="form-control input-custom">
+                        <select id="dataRate" name="dataRate" [(ngModel)]="dataRate" class="form-control input-custom dropdown-input">
                             <option value="" disabled selected></option>
                             <option value="DR0">DR0</option>
                             <option value="DR1">DR1</option>
@@ -324,15 +318,18 @@
                     </div>
 
                     <div class="card-footer add-device-footer-custom">
-                        <button type="submit" class="save-btn-custom btn btn-primary" (click)="updateDevice()">
-                            Update
+                        <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndNext()">
+                            Update & Next
+                        </button>
+                        <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndClose()">
+                            Update & Close
                         </button>
                     </div>
                 </form>
             </div>
 
             <div *ngIf="activeSettingTab === 'Class B'" class="general-settings-card">
-                <h3 class="general-settings-heading">Class B Settings</h3>
+                <h6 class="general-settings-heading">Class B Settings</h6>
                 <form class="nav-form">
                     <div class="form-group form-check checkbox-group-custom">
                         <input type="checkbox" class="form-check-input checkbox-input-custom" id="active" name="active"
@@ -342,14 +339,17 @@
                     </div>
                 </form>
                 <div class="card-footer add-device-footer-custom">
-                    <button type="submit" class="save-btn-custom btn btn-primary" (click)="updateDevice()">
-                        Update
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndNext()">
+                        Update & Next
+                    </button>
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndClose()">
+                        Update & Close
                     </button>
                 </div>
             </div>
 
             <div *ngIf="activeSettingTab === 'Class C'" class="general-settings-card">
-                <h3 class="general-settings-heading">Class C Settings</h3>
+                <h6 class="general-settings-heading">Class C Settings</h6>
                 <form class="nav-form">
                     <div class="form-group form-check checkbox-group-custom">
                         <input type="checkbox" class="form-check-input checkbox-input-custom" id="active" name="active"
@@ -359,20 +359,23 @@
                     </div>
                 </form>
                 <div class="card-footer add-device-footer-custom">
-                    <button type="submit" class="save-btn-custom btn btn-primary" (click)="updateDevice()">
-                        Update
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndNext()">
+                        Update & Next
+                    </button>
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndClose()">
+                        Update & Close
                     </button>
                 </div>
             </div>
-            <div *ngIf="activeSettingTab === 'Frame\'s settings'" class="general-settings-card">
-                <h3 class="general-settings-heading">Frame Settings</h3>
+            <div *ngIf="activeSettingTab === 'Frame settings'" class="general-settings-card">
+                <h6 class="general-settings-heading">Frame Settings</h6>
                 <form class="nav-form">
                     <h4 class="sub-heading-custom">Uplink</h4>
 
                     <div class="form-group input-group-custom">
                         <label for="uplinkDataRate" class="form-label label-custom classA-label">Data Rate</label>
                         <select id="uplinkDataRate" name="uplinkDataRate" [(ngModel)]="uplinkDataRate"
-                            class="form-control input-custom">
+                            class="form-control input-custom dropdown-input">
                             <option value="" disabled selected></option>
                             <option value="DR0">DR0</option>
                             <option value="DR1">DR1</option>
@@ -413,14 +416,17 @@
                     </div>
                 </form>
                 <div class="card-footer add-device-footer-custom">
-                    <button type="submit" class="save-btn-custom btn btn-primary" (click)="updateDevice()">
-                        Update
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndNext()">
+                        Update & Next
+                    </button>
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndClose()">
+                        Update & Close
                     </button>
                 </div>
             </div>
 
             <div *ngIf="activeSettingTab === 'Features'" class="general-settings-card">
-                <h3 class="general-settings-heading">Features Settings</h3>
+                <h6 class="general-settings-heading">Features Settings</h6>
                 <form class="nav-form">
                     <div class="form-group form-check checkbox-group-custom">
                         <input type="checkbox" class="form-check-input checkbox-input-custom" id="active" name="active"
@@ -434,18 +440,20 @@
                     </div>
                 </form>
                 <div class="card-footer add-device-footer-custom">
-                    <button type="submit" class="save-btn-custom btn btn-primary" (click)="updateDevice()">
-                        Update
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndNext()">
+                        Update & Next
+                    </button>
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndClose()">
+                        Update & Close
                     </button>
                 </div>
             </div>
 
             <div *ngIf="activeSettingTab === 'Location'" class="general-settings-card">
-                <h3 class="general-settings-heading">Location Settings</h3>
+                <h6 class="general-settings-heading">Location Settings</h6>
                 <form class="nav-form">
                     <div class="map-container-wrapper">
                         <div id="map" class="map-custom"></div>
-                        <!-- Globe button and search input overlay -->
                         <div class="map-overlay-container" (mouseenter)="showSearchBox = true"
                             (mouseleave)="showSearchBox = false">
                             <button class="globe-button">
@@ -465,21 +473,18 @@
                         </div>
                     </div>
 
-                    <!-- Latitude Input Field -->
                     <div class="form-group input-group-custom">
                         <label for="latitude" class="form-label label-custom">Latitude</label>
                         <input type="number" class="form-control input-custom" id="latitude" name="latitude"
                             [(ngModel)]="latitude" (ngModelChange)="onLatLngChange()">
                     </div>
 
-                    <!-- Longitude Input Field -->
                     <div class="form-group input-group-custom">
                         <label for="longitude" class="form-label label-custom">Longitude</label>
                         <input type="number" class="form-control input-custom" id="longitude" name="longitude"
                             [(ngModel)]="longitude" (ngModelChange)="onLatLngChange()">
                     </div>
 
-                    <!-- Altitude Input Field -->
                     <div class="form-group input-group-custom">
                         <label for="altitude" class="form-label label-custom">Altitude</label>
                         <input type="number" class="form-control input-custom" id="altitude" name="altitude"
@@ -487,14 +492,17 @@
                     </div>
                 </form>
                 <div class="card-footer add-device-footer-custom">
-                    <button type="submit" class="save-btn-custom btn btn-primary" (click)="updateDevice()">
-                        Update
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndNext()">
+                        Update & Next
+                    </button>
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndClose()">
+                        Update & Close
                     </button>
                 </div>
             </div>
 
             <div *ngIf="activeSettingTab === 'Payload'" class="general-settings-card">
-                <h3 class="general-settings-heading">Payload Settings</h3>
+                <h6 class="general-settings-heading">Payload Settings</h6>
                 <form class="nav-form">
                     <div class="form-group input-group-custom">
                         <label for="uplinkInterval" class="form-label label-custom">Uplink Interval</label>
@@ -554,8 +562,8 @@
                     </div>
                 </form>
                 <div class="card-footer add-device-footer-custom">
-                    <button type="submit" class="save-btn-custom btn btn-primary" (click)="updateDevice()">
-                        Update
+                    <button type="button" class="save-btn-custom btn btn-primary" (click)="updateAndClose()">
+                        Update & Close
                     </button>
                 </div>
             </div>
