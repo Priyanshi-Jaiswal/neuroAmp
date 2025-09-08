@@ -16,6 +16,7 @@ export class AddGatewaysComponent implements AfterViewInit, OnDestroy {
   virtualGatewayName: string = '';
   virtualMacAddress: string = '';
   virtualKeepAlive: number = 30;
+  virtualPort: number = 1701;
 
   // Real Gateway properties
   realActive: boolean = true;
@@ -42,6 +43,7 @@ export class AddGatewaysComponent implements AfterViewInit, OnDestroy {
   constructor(private appService: AppService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
+    this.initMap();
     this.route.paramMap.subscribe(params => {
       this.gatewayId = params.get('id');
       this.isEditMode = !!this.gatewayId;
@@ -75,6 +77,7 @@ export class AddGatewaysComponent implements AfterViewInit, OnDestroy {
           this.virtualGatewayName = gatewayData.name;
           this.virtualMacAddress = gatewayData.macAddress;
           this.virtualKeepAlive = gatewayData.keepAlive;
+          this.virtualPort = gatewayData.port;
         } else {
           this.selectedGatewayType = 'real';
           this.realActive = gatewayData.active;
@@ -247,14 +250,14 @@ export class AddGatewaysComponent implements AfterViewInit, OnDestroy {
         name: this.virtualGatewayName,
         macAddress: this.virtualMacAddress,
         keepAlive: this.virtualKeepAlive,
+        port: this.virtualPort,
         typeGateway: true,
         location: {
           latitude: this.latitude,
           longitude: this.longitude,
           altitude: this.altitude
         },
-        ip: '',
-        port: ''
+        ip: ''
       };
     } else {
       gatewayData = {
@@ -294,14 +297,14 @@ export class AddGatewaysComponent implements AfterViewInit, OnDestroy {
         name: this.virtualGatewayName,
         macAddress: this.virtualMacAddress,
         keepAlive: this.virtualKeepAlive,
+        port: this.virtualPort,
         typeGateway: true,
         location: {
           latitude: this.latitude,
           longitude: this.longitude,
           altitude: this.altitude
         },
-        ip: '',
-        port: ''
+        ip: ''
       };
     } else {
       gatewayData = {

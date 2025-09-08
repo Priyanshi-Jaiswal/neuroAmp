@@ -59,6 +59,7 @@ export class GatewaysComponent implements OnInit, AfterViewInit {
   constructor(private appService: AppService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.initMap();
     // this.loadGateways();
   }
 

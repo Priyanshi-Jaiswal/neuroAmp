@@ -55,6 +55,7 @@ export class EditGatewayComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.initMap();
     // We intentionally don't call initMap() here for edit mode.
     // It's called after the async data load to ensure it uses the correct coordinates.
   }

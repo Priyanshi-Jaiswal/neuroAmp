@@ -17,6 +17,7 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
   name: string = '';
   devEUI: string = '';
   region: string = '';
+  selectedGateway: any | null = null;
   selectedGatewayId: string | null = null;
   gateway: any[] = [];
   regionOptions: string[] = ['US915', 'EU868', 'AS923', 'AU915'];
@@ -137,7 +138,8 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
       name: this.name,
       devEUI: this.devEUI,
       region: this.region,
-      gateway: this.selectedGatewayId,
+      gateway: this.selectedGateway?.name,
+      gwEUI: this.selectedGateway?.macAddress, 
       otaaSupported: this.otaaSupported,
       appKey: this.appKey,
       devAddr: this.devAddr,
@@ -187,7 +189,7 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
    * Saves the current tab's data and navigates to the next tab.
    */
   saveAndNext(): void {
-    if (!this.name || !this.devEUI || !this.selectedGatewayId || !this.region) {
+    if (!this.name || !this.devEUI || !this.selectedGateway || !this.region) {
       console.warn('Please fill in Name, DevEUI, Gateway, and Region in the General tab before proceeding.');
       this.activeSettingTab = 'General';
       return;
@@ -248,7 +250,8 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.name = '';
     this.devEUI = '';
     this.region = '';
-    this.selectedGatewayId = null;
+    this.selectedGateway = null;
+    // this.selectedGatewayMac = null;
     this.otaaSupported = false;
     this.appKey = '';
     this.devAddr = '';

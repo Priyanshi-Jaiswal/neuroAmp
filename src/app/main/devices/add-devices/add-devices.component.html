@@ -117,10 +117,10 @@
 
                     <div class="form-group input-group-custom">
                         <label for="gateway" class="form-label label-custom">Gateway</label>
-                        <select id="gateway" [(ngModel)]="selectedGatewayId" name="gateway"
+                        <select id="gateway" [(ngModel)]="selectedGateway" name="gateway"
                             class="form-control input-custom dropdown-input" required>
                             <option [ngValue]="null" disabled>Select a Gateway</option>
-                            <option *ngFor="let gate of gateway" [ngValue]="gate.name">{{ gate.name }}
+                            <option *ngFor="let gate of gateway" [ngValue]="gate">{{ gate.name }}
                             </option>
                         </select>
                     </div>
