@@ -60,11 +60,11 @@ export class GatewaysComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.initMap();
-    // this.loadGateways();
+    this.loadGateways();
   }
 
   ngAfterViewInit(): void {
-    this.initMap();
+    // this.initMap();
     this.loadGateways(); 
   }
 

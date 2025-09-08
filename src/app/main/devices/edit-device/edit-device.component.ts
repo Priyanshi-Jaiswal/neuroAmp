@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as L from 'leaflet';
 import { AppService } from '../../../app.service';
-import { forkJoin, take } from 'rxjs';
+import { take } from 'rxjs'; // 'forkJoin' is no longer needed here
 
 @Component({
   selector: 'app-edit-device',
@@ -16,8 +16,11 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
   name: string = '';
   devEUI: string = '';
   region: string = '';
-  gateway: string = '';
-  selectedGatewayId: string | null = null;
+  // New property to hold the selected gateway object
+  selectedGateway: any | null = null;
+  // This property will hold the gateway name from the API response
+  private loadedGatewayName: string = '';
+
   regionOptions: string[] = ['US915', 'EU868', 'AS923', 'AU915'];
   otaaSupported: boolean = false;
   appKey: string = '';
@@ -78,15 +81,17 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // 1. Load gateways first, as per your original code
     this.appService.getGateways().subscribe({
       next: (response) => {
         this.gatewayOptions = response.response;
-        console.log('Gateways loaded:', this.gateway);
       },
       error: (err) => {
         console.error('Failed to fetch gateways:', err);
       },
     });
+
+    // 2. Then, get the device ID and load the device data
     this.deviceId = this.route.snapshot.paramMap.get('devEUI');
     if (this.deviceId) {
       this.loadGatewaysAndDeviceData(this.deviceId);
@@ -105,20 +110,19 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  // This method now only fetches the single device's data
   loadGatewaysAndDeviceData(devEUI: string): void {
-    forkJoin({
-      device: this.appService.getSingleDevice(devEUI),
-    })
+    this.appService.getSingleDevice(devEUI)
       .pipe(take(1))
       .subscribe({
-        next: (results) => {
-          const deviceData = results.device.response;
+        next: (response) => {
+          const deviceData = response.response;
           this.populateFormWithData(deviceData);
         },
         error: (error) => {
-          console.error('Error fetching data:', error);
+          console.error('Error fetching device data:', error);
           alert(
-            'Failed to load device data or gateways. Check console for details.'
+            'Failed to load device data. Check console for details.'
           );
           this.router.navigate(['/devices']);
         },
@@ -130,8 +134,18 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.name = deviceData.name || '';
     this.devEUI = deviceData.devEUI || '';
     this.region = deviceData.region || '';
-    this.gateway = deviceData.gateway || '';
-    console.log("Anurag====", deviceData.gateway);
+    this.loadedGatewayName = deviceData.gateway || '';
+
+    // Wait for gatewayOptions to be populated before setting the selected gateway
+    const checkGatewaysInterval = setInterval(() => {
+      if (this.gatewayOptions.length > 0) {
+        this.selectedGateway = this.gatewayOptions.find(
+          (gw) => gw.name === this.loadedGatewayName
+        );
+        clearInterval(checkGatewaysInterval);
+      }
+    }, 50); // Check every 50ms
+
     this.otaaSupported = deviceData.otaaSupported || false;
     this.appKey = deviceData.appKey || '';
     this.devAddr = deviceData.devAddr || '';
@@ -339,7 +353,9 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
       name: this.name,
       devEUI: this.devEUI,
       region: this.region,
-      gateway: this.gateway,
+      // Access the properties from the selected gateway object
+      gateway: this.selectedGateway?.name,
+      gwEUI: this.selectedGateway?.macAddress,
       otaaSupported: this.otaaSupported,
       appKey: this.appKey,
       devAddr: this.devAddr,
@@ -390,13 +406,11 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.appService.updateDevice(this.devEUI, updatedDeviceData).subscribe({
       next: (response) => {
         console.log('Device updated successfully!', response);
-        // alert('Device updated successfully!');
         const currentIndex = this.tabOrder.indexOf(this.activeSettingTab);
         if (currentIndex !== -1 && currentIndex < this.tabOrder.length - 1) {
           const nextTab = this.tabOrder[currentIndex + 1];
           this.setActiveTab(nextTab);
         } else {
-          // Fallback to close if on the last tab
           this.router.navigate(['/devices']);
         }
       },
