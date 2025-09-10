@@ -1,13 +1,13 @@
 <div class="add-gateway-container">
   <div class="add-gateway-header">
-    <h6>Edit Gateway</h6>
+    <h6>Edit Gateway / {{ virtualGatewayName || realGatewayName || 'New Device' }}</h6>
   </div>
 
   <div class="gateway-type-selection">
     <button class="gateway-type-button" [class.active]="selectedGatewayType === 'virtual'"
       [disabled]="isEditMode" (click)="selectGatewayType('virtual')">Virtual gateway</button>
-    <button class="gateway-type-button" [class.active]="selectedGatewayType === 'real'"
-      [disabled]="isEditMode" (click)="selectGatewayType('real')">Real gateway</button>
+    <!-- <button class="gateway-type-button" [class.active]="selectedGatewayType === 'real'"
+      [disabled]="isEditMode" (click)="selectGatewayType('real')">Real gateway</button> -->
   </div>
 
   <div class="gateway-content">

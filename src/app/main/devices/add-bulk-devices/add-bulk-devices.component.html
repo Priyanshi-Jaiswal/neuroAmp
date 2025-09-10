@@ -1,6 +1,6 @@
 <div class="add-device-page-container card">
     <div class="card-header add-device-header-custom">
-        <h6 class="card-title add-device-title-custom">Add Devices</h6>
+        <h6 class="card-title add-device-title-custom">Add Devices / {{ name || 'Prefix'}}</h6>
     </div>
 
     <div class="general-settings-card">
@@ -12,13 +12,13 @@
             </div>
 
             <div class="form-group input-group-custom">
-                <label for="name" class="form-label label-custom">Name</label>
+                <label for="name" class="form-label label-custom">Prefix</label>
                 <input type="text" class="form-control input-custom" id="name" name="name" [(ngModel)]="name">
             </div>
 
             <div class="form-group input-group-custom">
                 <label for="gateway" class="form-label label-custom">Gateway</label>
-                <select id="gateway" [(ngModel)]="selectedGatewayId" name="gateway" class="form-control input-custom"
+                <select id="gateway" [(ngModel)]="selectedGatewayId" name="gateway" class="form-control input-custom dropdown-input"
                     required>
                     <option [ngValue]="null" disabled>Select a gateway</option>
                     <option *ngFor="let gate of gateway" [ngValue]="gate.name">{{ gate.name }}
@@ -28,8 +28,8 @@
 
             <div class="form-group input-group-custom">
                 <label for="region" class="form-label label-custom">Region</label>
-                <select id="region" name="region" [(ngModel)]="region" class="form-control input-custom" required>
-                    <option value="" disabled selected>Select a region</option> <!-- Updated text -->
+                <select id="region" name="region" [(ngModel)]="region" class="form-control input-custom dropdown-input" required>
+                    <option [ngValue]="null" disabled selected>Select a region</option> <!-- Updated text -->
                     <option *ngFor="let opt of regionOptions" [value]="opt">{{ opt }}</option>
                 </select>
             </div>

@@ -25,10 +25,23 @@ L.Marker.prototype.options.icon = iconDefault;
 })
 
 export class GatewaysComponent implements OnInit, AfterViewInit {
+  gateways: any[] = [];
   selectedRow: any[] = [];
   rowData: any[] = [];
   colDefs: ColDef[] = [
     { field: "select", headerName: "", checkboxSelection: true, headerCheckboxSelection: true, flex: 0.3 },
+    {
+      field: "status",
+      headerName: "Status",
+      flex: 0.6,
+      cellRenderer: (params: ICellRendererParams) => {
+        const status = params.data?.currentStatus;
+        let color = status === 'playing' ? 'green' : 'red';
+        return `<div style="display: flex; align-items: center; justify-content: left; height: 100%;">
+                  <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${color};"></div>
+                </div>`;
+      },
+    },
     { field: "name", headerName: "Name", filter: 'agTextColumnFilter', flex: 2 },
     { field: "macAddress", headerName: "MAC Address", filter: 'agTextColumnFilter', flex: 2 },
     { field: "type", headerName: "Type", filter: 'agTextColumnFilter', flex: 1.5 },
@@ -148,6 +161,11 @@ export class GatewaysComponent implements OnInit, AfterViewInit {
           gateway.type = gateway.typeGateway ? 'Virtual' : 'Real';
         });
         this.addMarkers(this.rowData);
+        // this.gateways = response.response.map((gateway: any) => ({
+        //   ...gateway,
+        //   currentStatus: gateway.currentStatus || 'paused',
+        //   uplinkStatus: gateway.uplinkStatus || 'stopped'
+        // }));
       },
       error: (err) => {
         console.error('Failed to fetch gateways:', err);
