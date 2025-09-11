@@ -1,13 +1,14 @@
 @import 'ag-grid-community/styles/ag-grid.css';
 @import 'ag-grid-community/styles/ag-theme-quartz.css';
 
-body{
-    padding: 0;
-    margin: 0;
-}
 
 html, body { height: 100%; }
-body { margin: 0; padding: 0; font-family:'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif !important; font-size: 0.5vh;}
+#body { margin: 0; padding: 0; font-family:'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif !important; font-size: 0.5vh;}
+body {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
 
 mat-icon {
     cursor: pointer;    
@@ -31,5 +32,5 @@ mat-icon {
     background-color: #a0a0a0;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+//html, body { height: 100%; }
+//body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,10 +1,10 @@
 <div class="add-gateway-container">
   <div class="add-gateway-header">
-    <h6>Add Gateway / {{ virtualGatewayName || realGatewayName || 'New Device' }}</h6>
+	  <h6>Add Gateway / {{ virtualGatewayName || realGatewayName ||'[New Gateway]'}}</h6>
   </div>
 
   <div class="gateway-type-selection">
-    <button class="gateway-type-button" [class.active]="selectedGatewayType === 'virtual'" (click)="selectGatewayType('virtual')">Virtual gateway</button>
+    <button class="gateway-type-button" [class.active]="selectedGatewayType === 'virtual'" (click)="selectGatewayType('virtual')">Virtual Gateway</button>
     <!-- <button class="gateway-type-button" [class.active]="selectedGatewayType === 'real'" (click)="selectGatewayType('real')">Real gateway</button> -->
   </div>
 

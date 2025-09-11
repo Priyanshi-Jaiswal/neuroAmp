@@ -1,12 +1,12 @@
 <div class="add-device-page-container card">
     <div class="card-header add-device-header-custom">
         <!-- <h6 class="card-title add-device-title-custom">Edit Device</h6> -->
-        <h6 class="card-title add-device-title-custom">Edit Device / {{ name }}</h6>
+        <h6 class="card-title add-device-title-custom">Edit Device / {{ name || '[Device Name]' }}</h6>
     </div>
 
     <div class="card-body add-device-body-custom row no-gutters">
         <div class="col-md-3 add-device-sidebar-custom pr-4 border-end">
-            <h6 class="sidebar-heading-custom">Device's Setting</h6>
+           <!-- <h6 class="sidebar-heading-custom">Device's Setting</h6>-->
             <nav class="nav-vertical-custom">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item tab-item-custom">
@@ -101,7 +101,7 @@
                         <label for="devEUI" class="form-label label-custom">DevEUI</label>
                         <div class="input-group">
                             <input type="text" class="form-control input-custom dev-eui-input-custom" id="devEUI"
-                                name="devEUI" [(ngModel)]="devEUI" readonly>
+                                name="devEUI" [(ngModel)]="devEUI" disabled>
                         </div>
                     </div>
 
@@ -174,9 +174,9 @@
                         <label for="devAddr" class="form-label label-custom">DevAddr</label>
                         <div class="input-group">
                             <input type="text" class="form-control input-custom" id="devAddr" name="devAddr"
-                                [(ngModel)]="devAddr" style="min-width: 43rem;">
+                                [(ngModel)]="devAddr" style="min-width: 43rem;" disabled>
                             <button class="btn btn-outline-secondary generate-btn-custom" type="button"
-                                (click)="generateDevAddr()">
+                                (click)="generateDevAddr()" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="lucide lucide-rotate-cw">
@@ -191,7 +191,7 @@
                         <label for="nwkSKey" class="form-label label-custom">NwkSKey</label>
                         <div class="input-group">
                             <input [type]="showNwkSKey ? 'text' : 'password'" class="form-control input-custom"
-                                id="nwkSKey" name="nwkSKey" [(ngModel)]="nwkSKey">
+                                id="nwkSKey" name="nwkSKey" [(ngModel)]="nwkSKey" disabled>
                             <button class="btn btn-outline-secondary icon-btn-custom" type="button"
                                 (click)="toggleNwkSKeyVisibility()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
@@ -202,7 +202,7 @@
                                 </svg>
                             </button>
                             <button class="btn btn-outline-secondary generate-btn-custom" type="button"
-                                (click)="generateNwkSKey()">
+                                (click)="generateNwkSKey()" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="lucide lucide-rotate-cw">
@@ -217,7 +217,7 @@
                         <label for="appSKey" class="form-label label-custom">AppSKey</label>
                         <div class="input-group">
                             <input [type]="showAppSKey ? 'text' : 'password'" class="form-control input-custom"
-                                id="appSKey" name="appSKey" [(ngModel)]="appSKey">
+                                id="appSKey" name="appSKey" [(ngModel)]="appSKey" disabled>
                             <button class="btn btn-outline-secondary icon-btn-custom" type="button"
                                 (click)="toggleAppSKeyVisibility()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
@@ -228,7 +228,7 @@
                                 </svg>
                             </button>
                             <button class="btn btn-outline-secondary generate-btn-custom" type="button"
-                                (click)="generateAppSKey()">
+                                (click)="generateAppSKey()" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="lucide lucide-rotate-cw">
@@ -252,7 +252,7 @@
             <div *ngIf="activeSettingTab === 'Class A'" class="general-settings-card">
                 <h6 class="general-settings-heading">Class A Settings</h6>
                 <form class="nav-form">
-                    <h4 class="sub-heading-custom">RX1's settings</h4>
+                    <h4 class="sub-heading-custom">RX1's Settings</h4>
 
                     <div class="form-group input-group-custom">
                         <label for="rx1Delay" class="form-label label-custom classA-label">Delay</label>
@@ -279,7 +279,7 @@
                         </select>
                     </div>
 
-                    <h4 class="sub-heading-custom">RX2's settings</h4>
+                    <h4 class="sub-heading-custom">RX2's Settings</h4>
 
                     <div class="form-group input-group-custom">
                         <label for="rx2Delay" class="form-label label-custom classA-label">Delay</label>

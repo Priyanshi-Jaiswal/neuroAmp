@@ -109,7 +109,10 @@ $card-border-color: #F0F0F0;
 }
 
 .mac-address-input {
-  min-width: 70.5vw !important;
+  //min-width: 70.5vw !important;
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  cursor: not-allowed;
 }
 
 .form-check-custom {
