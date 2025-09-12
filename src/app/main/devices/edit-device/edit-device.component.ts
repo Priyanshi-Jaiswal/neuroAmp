@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as L from 'leaflet';
 import { AppService } from '../../../app.service';
-import { take } from 'rxjs'; // 'forkJoin' is no longer needed here
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-edit-device',
@@ -16,9 +16,7 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
   name: string = '';
   devEUI: string = '';
   region: string = '';
-  // New property to hold the selected gateway object
   selectedGateway: any | null = null;
-  // This property will hold the gateway name from the API response
   private loadedGatewayName: string = '';
 
   regionOptions: string[] = ['US915', 'EU868', 'AS923', 'AU915'];
@@ -74,6 +72,14 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     'Payload',
   ];
 
+  // New: A single object to manage the modal's state
+  modalConfig = {
+    show: false,
+    message: '',
+    isError: false,
+    showCancelButton: false,
+  };
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -81,13 +87,15 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // 1. Load gateways first, as per your original code
+    // 1. Load gateways first
     this.appService.getGateways().subscribe({
       next: (response) => {
         this.gatewayOptions = response.response;
       },
       error: (err) => {
         console.error('Failed to fetch gateways:', err);
+        // Use the new modal method for API errors
+        this.showModal('Failed to fetch gateways. Please try again.', true);
       },
     });
 
@@ -110,7 +118,18 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  // This method now only fetches the single device's data
+  // New method to show the modal with a simple message
+  private showModal(msg: string, isErr: boolean): void {
+    this.modalConfig.message = msg;
+    this.modalConfig.isError = isErr;
+    this.modalConfig.show = true;
+  }
+
+  // New method to close the modal, triggered by its output events
+  onModalClose(): void {
+    this.modalConfig.show = false;
+  }
+
   loadGatewaysAndDeviceData(devEUI: string): void {
     this.appService.getSingleDevice(devEUI)
       .pipe(take(1))
@@ -121,9 +140,7 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         error: (error) => {
           console.error('Error fetching device data:', error);
-          alert(
-            'Failed to load device data. Check console for details.'
-          );
+          this.showModal('Failed to load device data. Check console for details.', true);
           this.router.navigate(['/devices']);
         },
       });
@@ -136,7 +153,6 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.region = deviceData.region || '';
     this.loadedGatewayName = deviceData.gateway || '';
 
-    // Wait for gatewayOptions to be populated before setting the selected gateway
     const checkGatewaysInterval = setInterval(() => {
       if (this.gatewayOptions.length > 0) {
         this.selectedGateway = this.gatewayOptions.find(
@@ -144,7 +160,7 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
         );
         clearInterval(checkGatewaysInterval);
       }
-    }, 50); // Check every 50ms
+    }, 50);
 
     this.otaaSupported = deviceData.otaaSupported || false;
     this.appKey = deviceData.appKey || '';
@@ -397,7 +413,7 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   updateAndNext(): void {
     if (!this.devEUI) {
-      alert('Error: Device ID is missing for update.');
+      this.showModal('Error: Device ID is missing for update.', true);
       return;
     }
     const updatedDeviceData = this.getUpdatedDeviceData();
@@ -416,7 +432,7 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error updating device:', error);
-        alert('Failed to update device. Check console for details.');
+        this.showModal('Failed to update device. Check console for details.', true);
       },
     });
   }
@@ -426,7 +442,7 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   updateAndClose(): void {
     if (!this.devEUI) {
-      alert('Error: Device ID is missing for update.');
+      this.showModal('Error: Device ID is missing for update.', true);
       return;
     }
     const updatedDeviceData = this.getUpdatedDeviceData();
@@ -435,12 +451,12 @@ export class EditDeviceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.appService.updateDevice(this.devEUI, updatedDeviceData).subscribe({
       next: (response) => {
         console.log('Device updated successfully!', response);
-        alert('Device updated successfully!');
+        this.showModal('Device updated successfully!', false);
         this.router.navigate(['/devices']);
       },
       error: (error) => {
         console.error('Error updating device:', error);
-        alert('Failed to update device. Check console for details.');
+        this.showModal('Failed to update device. Check console for details.', true);
       },
     });
   }

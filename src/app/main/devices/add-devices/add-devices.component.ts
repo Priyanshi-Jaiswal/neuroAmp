@@ -49,7 +49,7 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
   uplinkDataRate: string = '';
   fPort: string = '';
   retransmission: string = '';
-  fCnt: string = '';
+  fCnt: number = 0;
   fCntDownDisable: boolean = false;
   fCntDown: number | undefined;
 
@@ -78,7 +78,14 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
   private map: L.Map | undefined;
   private marker: L.Marker | undefined;
 
-  // Current active tab in the Device's Settings sidebar
+  // Replaced message and isError with a single config object
+  modalConfig = {
+    show: false,
+    message: '',
+    isError: false,
+    showCancelButton: false, // Simple alerts don't need a cancel button
+  };
+
   activeSettingTab: string = 'General';
   private tabSequence: string[] = ['General', 'Activation', 'Class A', 'Class B', 'Class C', 'Frame settings', 'Features', 'Location', 'Payload'];
 
@@ -94,6 +101,8 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (err) => {
         console.error('Failed to fetch gateways:', err);
+        // Using the new modal method for API errors
+        // this.showModal('Failed to fetch gateways. Please try again.', true);
       },
     });
   }
@@ -109,6 +118,18 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  // New method to show the modal with a simple message
+  private showModal(msg: string, isErr: boolean): void {
+    this.modalConfig.message = msg;
+    this.modalConfig.isError = isErr;
+    this.modalConfig.show = true;
+  }
+
+  // New method to close the modal, triggered by the 'confirm' event
+  onModalClose(): void {
+    this.modalConfig.show = false;
+  }
+  
   /**
    * Handles the click event for sidebar navigation.
    * Sets the active tab.
@@ -139,7 +160,7 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
       devEUI: this.devEUI,
       region: this.region,
       gateway: this.selectedGateway?.name,
-      gwEUI: this.selectedGateway?.macAddress, 
+      gwEUI: this.selectedGateway?.macAddress,  
       otaaSupported: this.otaaSupported,
       appKey: this.appKey,
       devAddr: this.devAddr,
@@ -191,6 +212,7 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
   saveAndNext(): void {
     if (!this.name || !this.devEUI || !this.selectedGateway || !this.region) {
       console.warn('Please fill in Name, DevEUI, Gateway, and Region in the General tab before proceeding.');
+      this.showModal('Please fill in Name, DevEUI, Gateway, and Region in the General tab before proceeding.', true);
       this.activeSettingTab = 'General';
       return;
     }
@@ -207,6 +229,7 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error saving device:', error);
+        this.showModal('Failed to save device. Check console for details.', true);
       }
     });
   }
@@ -218,11 +241,12 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
     this._saveDevice().subscribe({
       next: (response) => {
         console.log('Device saved successfully and closing page.', response);
-        alert('Device added successfully!');
+        this.showModal('Device added successfully!', false);
         this.router.navigate(['/devices']);
       },
       error: (error) => {
         console.error('Error saving device:', error);
+        this.showModal('Failed to save device. Check console for details.', true);
       }
     });
   }
@@ -234,11 +258,12 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
     this._saveDevice().subscribe({
       next: (response) => {
         console.log('Device saved successfully. Resetting form for a new device.', response);
-        alert('Device added successfully!');
+        this.showModal('Device added successfully!', false);
         this._resetForm();
       },
       error: (error) => {
         console.error('Error saving device:', error);
+        this.showModal('Failed to save device. Check console for details.', true);
       }
     });
   }
@@ -251,7 +276,6 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.devEUI = '';
     this.region = '';
     this.selectedGateway = null;
-    // this.selectedGatewayMac = null;
     this.otaaSupported = false;
     this.appKey = '';
     this.devAddr = '';
@@ -259,7 +283,6 @@ export class AddDevicesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.appSKey = '';
     this.rx1Delay = '';
     this.rx1Duration = '';
-    // Reset other properties to their initial default state...
     this.uplinkInterval = '';
     this.payloadExceedsAction = 'fragments';
     this.mType = 'ConfirmedDataUp';

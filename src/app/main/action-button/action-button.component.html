@@ -15,3 +15,12 @@
       <mat-icon class="mat-logs">insert_comment</mat-icon>
     </button>
   </div>
+
+<app-alert-modal
+  *ngIf="modalConfig.show"
+  [message]="modalConfig.message"
+  [isError]="modalConfig.isError"
+  [showCancelButton]="modalConfig.showCancelButton"
+  (confirm)="onModalClose()"
+  (cancel)="onModalClose()">
+</app-alert-modal>

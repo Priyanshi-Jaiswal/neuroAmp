@@ -296,6 +296,28 @@ $card-border-color: #F0F0F0;
     }
 }
 
+.icon-btn-custom.btn {
+    background-color: #E3F2FD;
+    border: 1px solid $input-border-color;
+    color: $primary-blue;
+    padding: 0.6rem 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+
+    &:hover {
+        background-color: #BBDEFB;
+    }
+    &:focus {
+        box-shadow: 0 0 0 0.1rem $input-focus-shadow;
+        outline: none;
+    }
+    svg {
+        color: $primary-blue;
+    }
+}
+
 /* Styling for placeholder for other settings cards */
 .other-settings-card {
     background-color: #fff;

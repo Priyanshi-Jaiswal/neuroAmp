@@ -73,3 +73,12 @@
         {{ errorMessage }}
     </div>
 </div>
+
+<app-alert-modal
+  *ngIf="modalConfig.show"
+  [message]="modalConfig.message"
+  [isError]="modalConfig.isError"
+  [showCancelButton]="modalConfig.showCancelButton"
+  (confirm)="onModalConfirm()"
+  (cancel)="onModalCancel()">
+</app-alert-modal>

@@ -37,3 +37,13 @@
     </div>
 </div>
 </div>
+
+
+<app-alert-modal
+  *ngIf="modalConfig.show"
+  [message]="modalConfig.message"
+  [isError]="modalConfig.isError"
+  [showCancelButton]="modalConfig.showCancelButton"
+  (confirm)="onModalClose(true)"
+  (cancel)="onModalClose(false)">
+</app-alert-modal>

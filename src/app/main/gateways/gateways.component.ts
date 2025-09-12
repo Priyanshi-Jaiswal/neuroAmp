@@ -36,7 +36,8 @@ export class GatewaysComponent implements OnInit, AfterViewInit {
       flex: 0.6,
       cellRenderer: (params: ICellRendererParams) => {
         const status = params.data?.currentStatus;
-        let color = status === 'playing' ? 'green' : 'red';
+        // let color = status === 'playing' ? 'green' : 'red';
+        let color = status === 'red';
         return `<div style="display: flex; align-items: center; justify-content: left; height: 100%;">
                   <div style="width: 20px; height: 20px; border-radius: 50%; background-color: ${color};"></div>
                 </div>`;
@@ -63,12 +64,20 @@ export class GatewaysComponent implements OnInit, AfterViewInit {
   
   private map!: L.Map;
 
-  // ViewChild for resizable panels, using the non-null assertion operator "!"
   @ViewChild('tableContainer') tableContainer!: ElementRef<HTMLDivElement>;
   @ViewChild('mapContainer') mapContainer!: ElementRef<HTMLDivElement>;
 
   private isDragging = false;
   
+  // New: Modal configuration object
+  modalConfig = {
+    show: false,
+    message: '',
+    isError: false,
+    showCancelButton: false,
+  };
+  private modalCallback: (() => void) | undefined;
+
   constructor(private appService: AppService, private router: Router, private route: ActivatedRoute, private dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -77,10 +86,29 @@ export class GatewaysComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // this.initMap();
-    this.loadGateways(); 
+    this.loadGateways();  
   }
 
+  // New: Method to show the modal with custom options and an optional callback
+  private showModal(message: string, isError: boolean, showCancel: boolean, callback?: () => void): void {
+    this.modalConfig = {
+      show: true,
+      message: message,
+      isError: isError,
+      showCancelButton: showCancel
+    };
+    this.modalCallback = callback;
+  }
+
+  // New: Method to handle modal close events (OK/Cancel)
+  onModalClose(isConfirmed: boolean): void {
+    this.modalConfig.show = false;
+    if (isConfirmed && this.modalCallback) {
+      this.modalCallback();
+    }
+    this.modalCallback = undefined;
+  }
+  
   // Resizing logic
   onDragStart(event: MouseEvent) {
     this.isDragging = true;
@@ -132,20 +160,15 @@ export class GatewaysComponent implements OnInit, AfterViewInit {
   
       tiles.addTo(this.map);
       
-      // Add this line to force the map to redraw after initialization
-      this.map.invalidateSize(); 
+      this.map.invalidateSize();  
     }
   }
 
   private addMarkers(gateways: any[]): void {
     if (!this.map) return;
-    // ... clear existing markers
     gateways.forEach(gateway => {
-      console.log(`Gateway: ${gateway.name}, Lat: ${gateway.location.latitude}, Lng: ${gateway.location.longitude}`); // <--- Add this line
+      console.log(`Gateway: ${gateway.name}, Lat: ${gateway.location.latitude}, Lng: ${gateway.location.longitude}`);
       if (gateway.location.latitude && gateway.location.longitude) {
-        // L.marker([gateway.latitude, gateway.longitude])
-        //   .addTo(this.map)
-        //   .bindPopup(`<b>${gateway.name}</b><br>${gateway.macAddress}`);
         L.marker([parseFloat(gateway.location.latitude), parseFloat(gateway.location.longitude)])
         .addTo(this.map).bindPopup(`<b>${gateway.name}</b>`);
       }
@@ -161,14 +184,11 @@ export class GatewaysComponent implements OnInit, AfterViewInit {
           gateway.type = gateway.typeGateway ? 'Virtual' : 'Real';
         });
         this.addMarkers(this.rowData);
-        // this.gateways = response.response.map((gateway: any) => ({
-        //   ...gateway,
-        //   currentStatus: gateway.currentStatus || 'paused',
-        //   uplinkStatus: gateway.uplinkStatus || 'stopped'
-        // }));
       },
       error: (err) => {
         console.error('Failed to fetch gateways:', err);
+        // Display a modal on a failed API call
+        this.showModal('Failed to fetch gateways. Please try again.', true, false);
       }
     });
   }
@@ -179,7 +199,7 @@ export class GatewaysComponent implements OnInit, AfterViewInit {
   }
 
   navigateToAddGatewayPage(): void {
-    this.router.navigate(['/addGateways']); 
+    this.router.navigate(['/addGateways']);  
     console.log('Navigating to Add New Device page');
   }
 
@@ -189,30 +209,37 @@ export class GatewaysComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/edit-gateway', gatewayId]);
       console.log('Navigating to Edit Gateway page for ID:', gatewayId);
     } else {
-      console.warn('Please select exactly one gateway to edit.');
+      // Replaced console.warn with a modal
+      this.showModal('Please select exactly one gateway to edit.', true, false);
     }
   }
 
   deleteGateway(): void {
     if (this.selectedRow && this.selectedRow.length > 0) {
-      const gatewayIds = this.selectedRow.map(row => row._id.$oid);
-      const confirmation = confirm(`Are you sure you want to delete ${gatewayIds.length} selected gateway(s)?`);
-      if (confirmation) {
-        gatewayIds.forEach(id => {
-          this.appService.deleteGateway(id).subscribe({
-            next: (response) => {
-              console.log('Gateway deleted successfully:', response);
-              this.loadGateways();
-            },
-            error: (error) => {
-              console.error('Error deleting gateway:', error);
-            }
-          });
-        });
-        this.selectedRow = [];
-      }
+      const message = `Are you sure you want to delete ${this.selectedRow.length} selected gateway(s)?`;
+      // Replaced native confirm() with a modal and a callback function
+      this.showModal(message, false, true, () => this._confirmDeleteGateways());
     } else {
-      console.warn('Please select at least one gateway to delete.');
+      // Replaced console.warn with a modal
+      this.showModal('Please select at least one gateway to delete.', true, false);
     }
+  }
+
+  private _confirmDeleteGateways(): void {
+    const gatewayIds = this.selectedRow.map(row => row._id.$oid);
+    gatewayIds.forEach(id => {
+      this.appService.deleteGateway(id).subscribe({
+        next: (response) => {
+          console.log('Gateway deleted successfully:', response);
+          this.loadGateways();
+          this.showModal('Gateway(s) deleted successfully!', false, false);
+        },
+        error: (error) => {
+          console.error('Error deleting gateway:', error);
+          this.showModal('Failed to delete gateway(s). Please try again.', true, false);
+        }
+      });
+    });
+    this.selectedRow = [];
   }
 }

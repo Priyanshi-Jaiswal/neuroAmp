@@ -51,9 +51,9 @@
 
                     <li class="list-group-item tab-item-custom">
                         <a (click)="setActiveTab('Frame settings')"
-                            [ngClass]="{'active-tab-link-custom': activeSettingTab === 'Frame\'s settings'}"
+                            [ngClass]="{'active-tab-link-custom': activeSettingTab === 'Frame settings'}"
                             class="list-group-item-action tab-link-custom">
-                            Frame's settings
+                            Frame
                         </a>
                     </li>
 
@@ -174,9 +174,9 @@
                         <label for="devAddr" class="form-label label-custom">DevAddr</label>
                         <div class="input-group">
                             <input type="text" class="form-control input-custom" id="devAddr" name="devAddr"
-                                [(ngModel)]="devAddr" style="min-width: 43rem;" disabled>
+                                [(ngModel)]="devAddr" style="min-width: 44rem; background-color: #f2f2f2;" disabled>
                             <button class="btn btn-outline-secondary generate-btn-custom" type="button"
-                                (click)="generateDevAddr()" disabled>
+                                (click)="generateDevAddr()" style="background-color: #f2f2f2;" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="lucide lucide-rotate-cw">
@@ -191,7 +191,7 @@
                         <label for="nwkSKey" class="form-label label-custom">NwkSKey</label>
                         <div class="input-group">
                             <input [type]="showNwkSKey ? 'text' : 'password'" class="form-control input-custom"
-                                id="nwkSKey" name="nwkSKey" [(ngModel)]="nwkSKey" disabled>
+                                id="nwkSKey" name="nwkSKey" [(ngModel)]="nwkSKey" style="background-color: #f2f2f2;" disabled>
                             <button class="btn btn-outline-secondary icon-btn-custom" type="button"
                                 (click)="toggleNwkSKeyVisibility()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
@@ -202,7 +202,7 @@
                                 </svg>
                             </button>
                             <button class="btn btn-outline-secondary generate-btn-custom" type="button"
-                                (click)="generateNwkSKey()" disabled>
+                                (click)="generateNwkSKey()" style="background-color: #f2f2f2;" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="lucide lucide-rotate-cw">
@@ -217,7 +217,7 @@
                         <label for="appSKey" class="form-label label-custom">AppSKey</label>
                         <div class="input-group">
                             <input [type]="showAppSKey ? 'text' : 'password'" class="form-control input-custom"
-                                id="appSKey" name="appSKey" [(ngModel)]="appSKey" disabled>
+                                id="appSKey" name="appSKey" [(ngModel)]="appSKey" style="background-color: #f2f2f2;" disabled>
                             <button class="btn btn-outline-secondary icon-btn-custom" type="button"
                                 (click)="toggleAppSKeyVisibility()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
@@ -228,7 +228,7 @@
                                 </svg>
                             </button>
                             <button class="btn btn-outline-secondary generate-btn-custom" type="button"
-                                (click)="generateAppSKey()" disabled>
+                                (click)="generateAppSKey()" style="background-color: #f2f2f2;" disabled>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="lucide lucide-rotate-cw">
@@ -400,7 +400,7 @@
                     <div class="form-group input-group-custom">
                         <label for="fCnt" class="form-label label-custom classA-label">FCnt</label>
                         <input type="number" class="form-control input-custom" id="fCnt" name="fCnt" [(ngModel)]="fCnt"
-                            placeholder="FCnt">
+                            placeholder="Default value is 0">
                     </div>
                     <h4 class="sub-heading-custom">Downlink</h4>
 
@@ -571,3 +571,12 @@
             </div>
         </div>
     </div>
+
+<app-alert-modal
+  *ngIf="modalConfig.show"
+  [message]="modalConfig.message"
+  [isError]="modalConfig.isError"
+  [showCancelButton]="modalConfig.showCancelButton"
+  (confirm)="onModalClose()"
+  (cancel)="onModalClose()">
+</app-alert-modal>

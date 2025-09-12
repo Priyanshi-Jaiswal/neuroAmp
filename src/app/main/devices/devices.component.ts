@@ -19,6 +19,15 @@ export class DevicesComponent implements OnInit {
   private gridApi!: GridApi;
   getRowId = (params: any) => params.data.devEUI;
 
+  // Replaced message and isError with a single config object
+  modalConfig = {
+    show: false,
+    message: '',
+    isError: false,
+    showCancelButton: false,
+    callback: () => { }
+  };
+
   public showLogPanel = false;
   public selectedDevEuiForLogs: string | null = null;
 
@@ -43,7 +52,6 @@ export class DevicesComponent implements OnInit {
       field: "action",
       headerName: "Actions",
       flex: 1.5,
-      // Use the component as the cell renderer
       cellRenderer: ActionButtonComponent,
       suppressMenu: true,
       filter: false,
@@ -68,6 +76,41 @@ export class DevicesComponent implements OnInit {
     console.log('AG-Grid API is ready:', this.gridApi);
   }
 
+  // New method to show a simple alert using the modal
+  private showModalAlert(msg: string, isErr: boolean): void {
+    this.modalConfig = {
+      show: true,
+      message: msg,
+      isError: isErr,
+      showCancelButton: false,
+      callback: () => { } // The callback can be empty for simple alerts
+    };
+  }
+
+  // New method to show a confirmation modal
+  private showModalConfirm(msg: string, callback: () => void): void {
+    this.modalConfig = {
+      show: true,
+      message: msg,
+      isError: false, // Confirmations are not errors
+      showCancelButton: true,
+      callback: callback
+    };
+  }
+  
+  // Method to handle the modal's confirm event
+  onModalConfirm(): void {
+    this.modalConfig.show = false;
+    if (this.modalConfig.callback) {
+      this.modalConfig.callback();
+    }
+  }
+
+  // Method to handle the modal's cancel event
+  onModalCancel(): void {
+    this.modalConfig.show = false;
+  }
+  
   loadDevices(): void {
     this.isLoading = true;
     this.errorMessage = null;
@@ -95,7 +138,6 @@ export class DevicesComponent implements OnInit {
     console.log('Selected Rows:', this.selectedRow);
   }
 
-  // --- New Logic for Button Activation (Changed to public) ---
   public hasSelection(): boolean {
     return this.selectedRow.length > 0;
   }
@@ -112,7 +154,6 @@ export class DevicesComponent implements OnInit {
     return this.hasSelection() && this.selectedRow.every(device => device.uplinkStatus === 'running');
   }
 
-  // --- Existing Methods with Updates ---
   navigateToAddDevicePage(): void {
     this.router.navigate(['/addDevices']);
     console.log('Navigating to Add New Device page');
@@ -129,20 +170,17 @@ export class DevicesComponent implements OnInit {
       this.appService.startDevice(devEUIsToStart).subscribe({
         next: (response) => {
           console.log('All simulator started:', response);
-          // Update the local selectedRow array with the new status
           this.selectedRow = this.selectedRow.map(device => ({ ...device, currentStatus: 'playing' }));
-
-          // Update the grid's internal data
           this.gridApi.applyTransaction({ update: this.selectedRow });
           this.gridApi.refreshCells({ rowNodes: this.gridApi.getSelectedNodes(), force: true });
         },
         error: (error) => {
           console.error('Error starting simulator:', error);
-          alert('Failed to start simulator.');
+          this.showModalAlert('Failed to start simulator.', true);
         }
       });
     } else {
-      alert('Please select devices that are not already joined.');
+      this.showModalAlert('Please select devices that are not already joined.', true);
     }
   }
 
@@ -152,20 +190,17 @@ export class DevicesComponent implements OnInit {
       this.appService.stopDevice(devEUIsToStop).subscribe({
         next: (response) => {
           console.log('All simulator stopped:', response);
-          // Update the local selectedRow array with the new status
           this.selectedRow = this.selectedRow.map(device => ({ ...device, currentStatus: 'paused', uplinkStatus: 'stopped' }));
-
-          // Update the grid's internal data
           this.gridApi.applyTransaction({ update: this.selectedRow });
           this.gridApi.refreshCells({ rowNodes: this.gridApi.getSelectedNodes(), force: true });
         },
         error: (error) => {
           console.error('Error stopping simulator:', error);
-          alert('Failed to stop simulator.');
+          this.showModalAlert('Failed to stop simulator.', true);
         }
       });
     } else {
-      alert('Please select devices that are already joined.');
+      this.showModalAlert('Please select devices that are already joined.', true);
     }
   }
 
@@ -175,20 +210,17 @@ export class DevicesComponent implements OnInit {
       this.appService.startDeviceUplink(devEUIsToStart).subscribe({
         next: (response) => {
           console.log('All Devices uplink started:', response);
-          // Update the local selectedRow array with the new status
           this.selectedRow = this.selectedRow.map(device => ({ ...device, uplinkStatus: 'running' }));
-
-          // Update the grid's internal data
           this.gridApi.applyTransaction({ update: this.selectedRow });
           this.gridApi.refreshCells({ rowNodes: this.gridApi.getSelectedNodes(), force: true });
         },
         error: (error) => {
           console.error('Error starting devices uplink:', error);
-          alert('Failed to start devices uplink.');
+          this.showModalAlert('Failed to start devices uplink.', true);
         }
       });
     } else {
-      alert('Please select joined devices with stopped uplinks.');
+      this.showModalAlert('Please select joined devices with stopped uplinks.', true);
     }
   }
 
@@ -198,37 +230,43 @@ export class DevicesComponent implements OnInit {
       this.appService.stopDeviceUplink(devEUIsToStop).subscribe({
         next: (response) => {
           console.log('All devices uplink stopped:', response);
-          // Update the local selectedRow array with the new status
           this.selectedRow = this.selectedRow.map(device => ({ ...device, uplinkStatus: 'stopped' }));
-          
-          // Update the grid's internal data
           this.gridApi.applyTransaction({ update: this.selectedRow });
           this.gridApi.refreshCells({ rowNodes: this.gridApi.getSelectedNodes(), force: true });
         },
         error: (error) => {
           console.error('Error stopping devices uplink:', error);
-          alert('Failed to stop devices uplink.');
+          this.showModalAlert('Failed to stop devices uplink.', true);
         }
       });
     } else {
-      alert('Please select joined devices with running uplinks.');
+      this.showModalAlert('Please select joined devices with running uplinks.', true);
     }
   }
-  
+
   navigateToEditDevicePage(): void {
     if (this.selectedRow && this.selectedRow.length === 1) {
       const devEUI = this.selectedRow[0].devEUI;
       console.log("Navigating to Edit Device page with device EUI:", devEUI);
       this.router.navigate(['/edit-device', devEUI]);
     } else {
-      alert('Please select exactly one device to edit.');
+      this.showModalAlert('Please select exactly one device to edit.', true);
       console.warn('Invalid selection for editing.');
     }
   }
 
   deleteDevice(): void {
-    const devEUIsToDelete = this.selectedRow.map(device => device.devEUI);
-    if (confirm('Are you sure you want to delete this device?')) {
+    if (this.selectedRow.length === 0) {
+      this.showModalAlert('Please select at least one device to delete.', true);
+      return;
+    }
+    
+    // Show a confirmation modal instead of a simple alert
+    const deviceCount = this.selectedRow.length;
+    const message = `Are you sure you want to delete ${deviceCount === 1 ? 'this device' : 'these devices'}?`;
+
+    this.showModalConfirm(message, () => {
+      const devEUIsToDelete = this.selectedRow.map(device => device.devEUI);
       const deletePromises = devEUIsToDelete.map(id =>
         this.appService.deleteDevice(id).subscribe({
           next: (response) => {
@@ -237,11 +275,11 @@ export class DevicesComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error deleting device:', error);
-            alert('Failed to delete device. Check console for details.');
+            this.showModalAlert('Failed to delete device. Check console for details.', true);
           },
         })
       );
-    }
+    });
   }
 
   public onViewLogs(devEui: string): void {

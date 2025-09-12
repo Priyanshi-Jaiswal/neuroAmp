@@ -49,6 +49,7 @@ import { EditGatewayComponent } from './main/gateways/edit-gateway/edit-gateway.
 import { AddBulkDevicesComponent } from './main/devices/add-bulk-devices/add-bulk-devices.component';
 import { ActionButtonComponent } from './main/action-button/action-button.component';
 import { LogPanelComponent } from './main/action-button/log-panel/log-panel.component';
+import { AlertModalComponent } from './shared/alert-modal/alert-modal.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { LogPanelComponent } from './main/action-button/log-panel/log-panel.comp
     EditGatewayComponent,
     AddBulkDevicesComponent,
     ActionButtonComponent,
-    LogPanelComponent
+    LogPanelComponent,
+    AlertModalComponent
   ],
   imports: [
     BrowserModule,
